@@ -210,8 +210,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	
 	function addGoogleAnalytics() {
-	  console.log('@@@@@@@@@@');
-	  console.log(("UA-98307935-1"));
 	  var script = document.createElement('script');
 	  script.innerText = '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){\n  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n  })(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');\n\n  ga(\'create\', \'' + ("UA-98307935-1") + '\'' + ', \'auto\');\n  ga(\'require\', \'displayfeatures\');\n  ga(\'send\', \'pageview\');\n  ';
 	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
@@ -92322,7 +92320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    store.trackEvent('Transit Loaded', 'Load Time', loadTime);
 	    store.trackEvent('Transit Loaded', 'File Size', transitString.length);
 	    store.trackEvent('Transit Loaded', 'Download Rate', Math.round(speed));
-	    store.trackEvent('Transit Loaded', 'Scene Owner', payload.owner && payload.owner.username);
+	    store.trackEvent('Scene Owner', payload.owner && payload.owner.username);
 	    return store.dispatch({ type: _actionTypes.LOAD_SCENE, payload: payload }).then(function () {
 	      return id;
 	    });
