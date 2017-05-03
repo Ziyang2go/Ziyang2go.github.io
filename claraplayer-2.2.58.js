@@ -92316,11 +92316,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var startTime = getStartTime(store);
 	    var loadTime = new Date() - startTime;
 	    var speed = transitString.length / loadTime;
+	    console.log('>>>>>>>>.');
+	    console.log(payload);
+	    console.log(payload.owner && JSON.parse(payload.owner).username);
 	    store.logPageView('/player/v2/' + id, loadTime);
 	    store.trackEvent('Transit Loaded', 'Load Time', loadTime);
 	    store.trackEvent('Transit Loaded', 'File Size', transitString.length);
 	    store.trackEvent('Transit Loaded', 'Download Rate', Math.round(speed));
-	    store.trackEvent('Scene Owner', payload.owner && payload.owner.username);
+	    store.trackEvent('Scene Owner', payload.owner && JSON.parse(payload.owner).username);
 	    return store.dispatch({ type: _actionTypes.LOAD_SCENE, payload: payload }).then(function () {
 	      return id;
 	    });
