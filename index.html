@@ -3,11 +3,49 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 	<script src="https://code.jquery.com/jquery-2.0.2.min.js" integrity="sha256-TZWGoHXwgqBP1AF4SZxHIBKzUdtMGk0hCQegiR99itk=" crossorigin="anonymous"></script>
     <title>Test Embedded</title>
 </head>
 
 <body>
-<iframe src="https://10.0.3.178/embed/2e0c4ea6-9810-4111-a34f-d0362926f571?renderer=webgl" width="800" height="600" allowfullscreen></iframe>
+<article>
+    <p>This demo shows how you can import and assign an image, or load a previously imported image.</p>
+<p><div id="content">
+  <div id="player" style="height: 1000px;width: 1000px;"></div>
+  <input id="upload" type="file">
+  <button id="previous">Use Previous Image</button>
+  <p><u>Clara.io demo resources:</u></p>
+  <a id="baseScene" target="_blank">Visit Base Scene</a>
+</div></p>
+<script type="text/javascript" src="claraplayer-2.2.58.js"></script>
+<script src="content.js"></script>
+<hr>
+<pre class="prettyprint source lang-javascript"><code>var baseSceneId = '254d90dd-eb0c-4618-ba85-bf22668b1a5d';
+
+var api = claraplayer('player');
+api.sceneIO.fetchAndUse('254d90dd-eb0c-4618-ba85-bf22668b1a5d').then(function() {
+  document.getElementById('upload').onchange = onInputFileChanged;
+  document.getElementById('previous').onclick = importPreviousImage;
+  document.getElementById('baseScene').setAttribute('href','https://clara.io/view/'+baseSceneId);
+});
+
+function onInputFileChanged(ev) {
+  var file = ev.target.files[0];
+  api.assets.importImage(file, 1024).then(handleImport).catch(handleError);
+}
+
+function handleImport(attrs) {
+  api.scene.set({name: 'Physical', plug: 'Material', property: 'baseMap'}, attrs.imageNodeId);
+};
+
+function handleError(err) {
+  console.log('Import image error: ', err);
+}
+
+function importPreviousImage(ev) {
+  api.assets.importImage('b358f029-316a-4b95-8043-b3431f5ae3cd').then(handleImport).catch(handleError);
+}</code></pre>
+</article>
 </body>
 
 </html>
