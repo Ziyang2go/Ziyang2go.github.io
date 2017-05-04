@@ -1,7 +1,8 @@
 var api = claraplayer('clara-embed');
 
-api.sceneIO.fetchAndUse('5ee9adcb-5b88-4263-8328-7f251f5ff630');
+api.sceneIO.fetchAndUse('4a06a7a6-1c7a-4e01-babb-654ad53051f9');
 api.on('loaded', function(){
+  api.player.useCamera('fbb45c46-8a7c-44c8-b1e2-245e94f2e250');
   ['orbit', 'pan', 'zoom', 'home', 'fullscreen'].forEach(function(tool){
     api.player.hideTool(tool);
   });
@@ -25,6 +26,8 @@ document.getElementById('buttonInputText').addEventListener('click', function(e)
 
 document.getElementById('upload').addEventListener("change", function (e) {
   var file = e.target.files[0];
+  var name = document.getElementById('filename');
+  name.value = file.name;
   var reader = new FileReader();
   reader.onload = function (ev) {
     var data = ev.target.result;                    
