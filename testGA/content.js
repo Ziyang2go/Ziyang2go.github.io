@@ -1,6 +1,6 @@
 
 var api = claraplayer('player');
-api.sceneIO.fetchAndUse('b6a416af-5a8b-41cd-b21f-d40ed69ca5f9').then(function() {
+api.sceneIO.fetchAndUse('c9942ef6-47a4-4506-aa55-6656347e29ee').then(function() {
   document.getElementById('upload').onchange = onInputFileChanged;
   document.getElementById('previous').onclick = importPreviousImage;
 });

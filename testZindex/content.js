@@ -1,6 +1,6 @@
 
 var api = claraplayer('player');
-api.sceneIO.fetchAndUse('b6a416af-5a8b-41cd-b21f-d40ed69ca5f9').then(function() {
+api.sceneIO.fetchAndUse('8807d330-a80a-431a-a65e-9b6a55cf6c06').then(function() {
   api.commands.runCommand('vrmode');
   document.getElementById('upload').onchange = onInputFileChanged;
   document.getElementById('previous').onclick = importPreviousImage;
