@@ -18,7 +18,7 @@ function exportClara() {
 	};
 	xhttp.open("GET", url, true);
 	xhttp.setRequestHeader('accept', 'text/event-stream');
-	xhttp.setRequestHeader('authorization', 'Basic ' + btoa(username + accessToken));
+	xhttp.setRequestHeader('authorization', 'Basic ' + btoa(username + ':'+ accessToken));
 	xhttp.addEventListener("progress", updateProgress);
 	xhttp.send();
 }
