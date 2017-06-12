@@ -2,18 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  	<script src="https://code.jquery.com/jquery-2.0.2.min.js" integrity="sha256-TZWGoHXwgqBP1AF4SZxHIBKzUdtMGk0hCQegiR99itk=" crossorigin="anonymous"></script>
-    <title>Test Embedded</title>
+  <title>Test Export clara</title>
 </head>
 
 <body>
-<input id="sceneId" type='text'>
-<input id="type" type="text">
-<br/>
-<button onclick="exportClara()"> Export Clara </button>
+<div class="jumbotron text-center">
+  <h1>Export and Download Clara files</h1>
+</div>
+<div style="margin-left: 10%; width: 80%">
+  <div> 
+    <label> Scene Id</label>
+    <input class="form-control" id="sceneId" type='text'>
+  </div>
+  <div>
+    <label> Export type</label>
+    <input class="form-control" id="type" type="text">
+  </div>
+  <div>
+    <label>User Name</label>
+    <input class="form-control" id="username" type="text">
+  </div>
+  <div>
+    <label> Access token</label>
+    <input class="form-control" id="accessToken" type="text">
+  </div>
+  <br/>
+<button class="btn btn-success" onclick="exportClara()"> Export Clara </button>
+</div>
 
-<a id='download' href="#" > Download export</a>
+<a id='download' style="display: none;" href="#" > Download export</a>
 </body>
 <script type="text/javascript" src="./src.js"></script>
 </html>
