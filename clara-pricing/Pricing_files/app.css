@@ -6562,7 +6562,6 @@ a.traversal {
   color: #757589;
 }
 .pricing-table {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   height: 650px;
   padding: 0;
   text-align: center;
@@ -6635,7 +6634,7 @@ a.traversal {
 }
 .pricing-table .pricing-footer {
   position: absolute;
-  bottom: 10px;
+  bottom: 20px;
   margin-left: 10%;
   width: 80%;
 }
@@ -6658,7 +6657,6 @@ a.traversal {
 .pricing-table.standard h2 {
   height: 100px;
   background-color: #88df2a;
-  color: white;
   border: solid #333333;
   border-width: 1px 0px 1px 0px;
 }
@@ -6669,7 +6667,6 @@ a.traversal {
 .pricing-table.professional h2 {
   height: 100px;
   background-color: #ffc85f;
-  color: white;
   border: solid #333333;
   border-width: 1px 0px 1px 0px;
 }
@@ -6685,6 +6682,7 @@ a.traversal {
 }
 .pricing-text {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  margin-top: 5%;
 }
 .credit-card-form {
   text-align: left;

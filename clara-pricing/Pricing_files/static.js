@@ -1014,22 +1014,21 @@ var hljs=new function(){function l(o){return o.replace(/&/gm,"&amp;").replace(/<
 
 })(jQuery);
 
-var trackEvent = function(eventName, eventData) {
+var trackEvent = function( eventName, eventData ) {
   var category = (eventData || {}).category || 'Unknown Category';
-  if (window && window['ga'])
-    ga('send', 'event', category, eventName || 'Unnamed Event');
+  if( window && window['ga'] ) ga('send','event', category, eventName || 'Unnamed Event');
 };
 
 // http://stackoverflow.com/questions/7731778/jquery-get-query-string-parameters
 var getUrlVars = function(href) {
-  var vars = [],
-    hash;
+  var vars = [], hash;
   if (!href) href = window.location.href;
   var hashes = href.slice(href.indexOf('?') + 1).split('&');
-  if (href.indexOf('client_id') !== -1) {
+  if(href.indexOf('client_id') !== -1)
+  {
     hashes = href.split('?');
     hash = hashes[1].split('=');
-    vars['redirect'] = hash[1] + '?' + hashes[2];
+    vars['redirect'] = hash[1]+'?'+hashes[2];
     console.log(vars['redirect']);
     return vars;
   }
@@ -1048,7 +1047,7 @@ var getCookie = function(key) {
   var pairs = document.cookie.split(/;\s?/i);
   var cookies = {};
   var pair;
-  for (var i = 0; i < pairs.length; i++) {
+  for (var i=0; i<pairs.length; i++) {
     pair = pairs[i].split('=');
     if (pair.length === 2) {
       cookies[unescape(pair[0])] = unescape(pair[1]);
@@ -1060,11 +1059,13 @@ var getCookie = function(key) {
 var failResponse = function($form) {
   return function(jqXHR) {
     var response = {
-      message: 'Unexpected response from server',
+      message: 'Unexpected response from server'
     };
     try {
       response = $.parseJSON(jqXHR.responseText) || response;
-    } catch (e) {}
+    }
+    catch( e ) {
+    }
     $form.find('.alert').html(response.message).removeClass('hide');
 
     $('.help-inline').remove();
@@ -1072,27 +1073,16 @@ var failResponse = function($form) {
     $form.find('.help-block').remove();
 
     $.each(response.errors || {}, function(i, err) {
-      var message =
-        err.message ||
-        {
-          invalid: 'Invalid',
-          missing_field: 'Required',
-          already_exists: 'Already Used',
-        }[err.code] ||
-        'Invalid';
 
-      trackEvent(
-        'Error: ' +
-          response.message +
-          ' field: ' +
-          err.field +
-          ' msg: ' +
-          message,
-        { category: 'Static' }
-      );
+      var message = err.message || {
+        'invalid': 'Invalid',
+        'missing_field': 'Required',
+        'already_exists': 'Already Used',
+      }[err.code] || 'Invalid';
 
-      $form
-        .find('input[name=' + err.field + ']')
+      trackEvent('Error: ' + response.message + ' field: ' + err.field + ' msg: ' + message, {category: 'Static'});
+
+      $form.find('input[name=' + err.field + ']')
         .parents('.form-group')
         .addClass('has-error')
         .append('<span class="help-block">' + message + '</span>');
@@ -1104,8 +1094,8 @@ var redirectTo = function(fallback) {
   return function() {
     var redirect = getUrlVar('redirect');
     var href = redirect ? unescape(redirect) : fallback;
-    var separator = href.indexOf('?') === -1 ? '?' : '&';
-    window.location.href = href + separator + 'nocache=' + new Date().getTime();
+    var separator = href.indexOf('?')===-1 ? '?' : '&';
+    window.location.href = href + separator + 'nocache=' + (new Date()).getTime();
   };
 };
 
@@ -1115,25 +1105,22 @@ var clickOrTouch = function($el, callback) {
 };
 
 $(document).ready(function() {
+
   $('.carousel').carousel();
 
   var username = getCookie('username');
   if (username) {
     $('li.signup').html('');
-    $('li.login').html('<a href="/user" class="username">' + username + '</a>');
+    $('li.login').html('<a href="/user" class="username">'+username+'</a>');
   } else {
-    $('li.signup').html(
-      '<a class="btn" href="/signup" id="signup-bttn" type="signup">Sign Up</a>'
-    );
-    $('li.login').html(
-      '<a class="btn" href="/login" id="login-bttn" type="login">Log In</a>'
-    );
+    $('li.signup').html('<a class="btn" href="/signup" id="signup-bttn" type="signup">Sign Up</a>');
+    $('li.login').html('<a class="btn" href="/login" id="login-bttn" type="login">Log In</a>');
   }
 
   var redirect = getUrlVar('redirect');
   if (redirect) {
-    $('a[href="/login"]').attr('href', '/login?redirect=' + redirect);
-    $('a[href="/signup"]').attr('href', '/signup?redirect=' + redirect);
+    $('a[href="/login"]').attr('href', '/login?redirect='+redirect);
+    $('a[href="/signup"]').attr('href', '/signup?redirect='+redirect);
   }
 
   $('form.login').submit(function(ev) {
@@ -1141,56 +1128,48 @@ $(document).ready(function() {
 
     $.post($form.attr('action'), $form.serialize())
       .done(function() {
-        trackEvent('User Login - Success', { category: 'Static' });
+        trackEvent('User Login - Success', {category: 'Static'});
         redirectTo('/')();
-      })
-      .fail(function(jqXHR) {
-        trackEvent('User Login - Failed', { category: 'Static' });
+      }).fail(function(jqXHR){
+        trackEvent('User Login - Failed', {category: 'Static'});
         failResponse($form)(jqXHR);
       });
     return false;
   });
+
 
   $('form.signup').submit(function(ev) {
     var $form = $(this);
     var plan = getUrlVar('plan');
     var successUrl = '/signup/plan';
     if (plan) {
-      if (plan !== 'basic') successUrl = '/signup/plan/' + plan;
+      if (plan !== 'basic') successUrl = '/signup/plan/'+plan;
       else successUrl = '/scenes';
     }
 
     $.post($form.attr('action'), $form.serialize())
       .done(function() {
-        trackEvent('User Sign Up - Success', { category: 'Static' });
+        trackEvent('User Sign Up - Success', {category: 'Static'});
         redirectTo(successUrl)();
-      })
-      .fail(function(jqXHR) {
+      }).fail(function(jqXHR) {
         var response = null;
-        try {
-          response = $.parseJSON(jqXHR.responseText);
-        } catch (e) {}
-        if (!response) {
-          trackEvent('Unexpected Error: response == null', {
-            category: 'Static',
-          });
+        try { response = $.parseJSON(jqXHR.responseText); }
+        catch( e ) {}
+        if( ! response ) {
+          trackEvent('Unexpected Error: response == null', {category: 'Static'});
           response = {};
         }
         response.errors = response.errors || [];
 
         var dup;
-        for (var i = 0; i < response.errors.length; i++) {
-          if (
-            response.errors[i].field === 'email' &&
-            response.errors[i].code === 'already_exists'
-          ) {
-            trackEvent('User Sign Up - Already Exists', { category: 'Static' });
-            window.location.href =
-              '/login?email=' + $form.find('input[name=email]').val();
+        for (var i=0; i<response.errors.length; i++) {
+          if (response.errors[i].field === 'email' && response.errors[i].code === 'already_exists') {
+            trackEvent('User Sign Up - Already Exists', {category: 'Static'});
+            window.location.href = '/login?email=' + $form.find("input[name=email]").val();
             return;
           }
         }
-        trackEvent('User Sign Up - Failed', { category: 'Static' });
+        trackEvent('User Sign Up - Failed', {category: 'Static'});
         return failResponse($form)(jqXHR);
       });
     return false;
@@ -1202,26 +1181,24 @@ $(document).ready(function() {
   $('form.forgot_password').submit(function(ev) {
     var $form = $(this);
 
-    trackEvent('Password forgotten', { category: 'Static' });
+    trackEvent('Password forgotten', {category: 'Static'});
 
     $.post($form.attr('action'), $form.serialize())
       .done(function() {
         window.location.href = '/password_reset_sent';
-      })
-      .fail(failResponse($form));
+      }).fail(failResponse($form));
     return false;
   });
 
   $('form.password_reset').submit(function(ev) {
     var $form = $(this);
 
-    trackEvent('Password reset requested', { category: 'Static' });
+    trackEvent('Password reset requested', {category: 'Static'});
 
     $.post($form.attr('action'), $form.serialize())
       .done(function() {
         window.location.href = '/login';
-      })
-      .fail(failResponse($form));
+      }).fail(failResponse($form));
     return false;
   });
 
@@ -1231,9 +1208,7 @@ $(document).ready(function() {
   });
 
   $('form.login').each(function() {
-    $(this)
-      .find('input[name=username]')
-      .val(getUrlVar('email') || getUrlVar('username'));
+    $(this).find('input[name=username]').val(getUrlVar('email') || getUrlVar('username'));
   });
 
   $('form.password_reset').each(function() {
@@ -1242,34 +1217,33 @@ $(document).ready(function() {
   });
 
   clickOrTouch($('#registerBtn'), function() {
-    trackEvent('Directed to signup', { category: 'Landing' });
-    window.location.href = '/signup';
+    trackEvent('Directed to signup', {category: 'Landing'});
+    window.location.href='/signup';
   });
 
   $('form.signup_landing').submit(function(ev) {
     var $form = $(this);
 
-    trackEvent('Applied with email', { category: 'Landing' });
+    trackEvent('Applied with email', {category: 'Landing'});
+
 
     $.post($form.attr('action'), $form.serialize())
       .done(function(response) {
-        window.location.href = '/signup?email=' + $form('td[name=email]');
-      })
-      .fail(failResponse($form));
+        window.location.href = '/signup?email='+ $form('td[name=email]');
+      }).fail(failResponse($form));
     return false;
   });
 
   $('img#renderImage').each(function() {
     var img = this;
-    var addr = decodeURIComponent(
-      getUrlVars()['socket'] || 'http://192.168.33.10:3000/progressive'
-    );
+    var addr = decodeURIComponent(getUrlVars()['socket'] || 'http://192.168.33.10:3000/progressive');
     var socket = new WebSocket(addr);
     socket.onmessage = function(msg) {
       if (msg.data instanceof Blob) {
-        if (window.webkitURL && window.webkitURL.createObjectURL) {
+        if( window.webkitURL && window.webkitURL.createObjectURL ){
           img.src = window.webkitURL.createObjectURL(msg.data);
-        } else {
+        }
+        else {
           img.src = window.URL.createObjectURL(msg.data);
         }
         img.src = url.createObjectURL(msg.data);
