@@ -1,0 +1,16 @@
+<body style="margin: 0">
+  <div id="clara-embed" style="position: absolute; width: 100%; height: 100%;"></div>
+  <script src="claraplayer.js"></script>
+  <script>
+   var clara = claraplayer('clara-embed');
+
+   clara.player.displayThumbnail(false);
+   clara.assets.addRoot('.');
+
+   clara.on('loaded', function() {
+     console.log('Clara player is loaded and ready');
+   });
+
+   clara.sceneIO.fetchAndUse("18545992-bb0a-4764-a504-c74d77e4ce38", "70363980dd7cdec204f3d4c5f5e9e6f0");
+  </script>
+</body>
