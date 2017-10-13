@@ -1,0 +1,25 @@
+var class_v_ray_1_1_plugins_1_1_settings_color_mapping =
+[
+    [ "adaptation_only", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#acd21758dda8a70a9b9ab664b0a35a01c", null ],
+    [ "AdaptationOnly", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a46824a336dbd65ff8c85771e24757d4e", null ],
+    [ "affect_background", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#aed12ff880d5102e49a5c67efc3f5e7f0", null ],
+    [ "AffectBackground", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a63d583e39adc50cc6d6a9566a0c42c78", null ],
+    [ "bright_mult", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a1230637ddd1f4661cb07f839d29d97d5", null ],
+    [ "BrightMult", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a5a371f337fb6a9e5c4a67f7d2ca703a1", null ],
+    [ "clamp_level", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a1951bebf029566cc07e1981440c036bb", null ],
+    [ "clamp_output", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a04f9f7507daf16f87ea2eeb4d020efb3", null ],
+    [ "ClampLevel", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#abde0fb09c41a5903e2a1649cd3830deb", null ],
+    [ "ClampOutput", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a4dbe59183712bb2ae63d9ba9e7cf8de1", null ],
+    [ "dark_mult", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a117737bded7ffe4bcc0e57c050a0d468", null ],
+    [ "DarkMult", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a5a224a5dcca0a0f144958c4b3a448632", null ],
+    [ "Exposure", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#aafe226c3b56c80e381c731d8032cfe23", null ],
+    [ "exposure", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a3700fefea7d133c5438469039e2a5c46", null ],
+    [ "gamma", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a10b2c308d78da493f1c318504e9ad85b", null ],
+    [ "Gamma", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a7bd9317cc5667024df4deb8470da4e4c", null ],
+    [ "linearWorkflow", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#aeffd683a5a6b0e859da151e492f7f0d5", null ],
+    [ "LinearWorkflow", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#af170eba8accb050f51404aef81a239da", null ],
+    [ "SettingsColorMappingType", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#ad593fa11c039f1f2982ba30e63667a2c", null ],
+    [ "subpixel_mapping", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#adbbcaaf7ece4b98c1d5c6991cc17ebfd", null ],
+    [ "SubpixelMapping", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#ad0f6fdb259a7eede33e7c0f860bc3252", null ],
+    [ "type", "class_v_ray_1_1_plugins_1_1_settings_color_mapping.html#a78148a9e530aa6fdc40844510ec9bb5e", null ]
+];

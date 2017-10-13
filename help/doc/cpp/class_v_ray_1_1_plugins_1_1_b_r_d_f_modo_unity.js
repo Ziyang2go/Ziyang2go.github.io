@@ -1,0 +1,28 @@
+var class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity =
+[
+    [ "get_albedo", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a1e461a1d274da7f4dc0a9d4719588d0c", null ],
+    [ "get_albedo_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a4f03cf4339a0e018426f40b42f251ed8", null ],
+    [ "get_ambient_occlusion_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a4df97c3114729b02147ccb9027b67743", null ],
+    [ "get_emissive", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a4f175def8b0ad1da36008fc7ef878c77", null ],
+    [ "get_emissive_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a8cdc47f330ca1306e448e35aa6dc0da5", null ],
+    [ "get_emissivelevel", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a07b513534a52d9f09a295077f1bbcf46", null ],
+    [ "get_fresrel0", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#adc4dfcabcd16443ef0e920cbd5610618", null ],
+    [ "get_metallic", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#aeda8d6cdfe0cd9d209b927cd3c3f588e", null ],
+    [ "get_reflRays", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a89f0c9dcddc554aeea4ca5e1de64e157", null ],
+    [ "get_smoothness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a9176be1a1ee28a732c3f864c1b51efa2", null ],
+    [ "set_albedo", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a4997aa8f15572dbe647e477d4b4ae088", null ],
+    [ "set_albedo", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#ae2aa91bf419f53ee864a66c9c68f981f", null ],
+    [ "set_albedo_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a01131d0d3c9f82d7a62aac4c2c2b08e1", null ],
+    [ "set_ambient_occlusion_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a49341254fb8634c3e5c6b455b7b7e2fb", null ],
+    [ "set_ambient_occlusion_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#aaf95a8a5d5c53734267c301a5c103447", null ],
+    [ "set_emissive", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a05fce81d67b04246d02ffcd03c4cb221", null ],
+    [ "set_emissive", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a0373d6259e9b2c18d8540c068be8b475", null ],
+    [ "set_emissive_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a5e530147a5e9e1e5ff3d0ac031060514", null ],
+    [ "set_emissivelevel", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a724e1f2bf60ae7af110fdc59e8c59058", null ],
+    [ "set_fresrel0", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a3e7efdb20557d6465b39a76a8ffa6cc1", null ],
+    [ "set_metallic", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a0ec25b420e6affe39bc20b011d988a33", null ],
+    [ "set_metallic", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#ab3af2971e82e56740266ea96062547fc", null ],
+    [ "set_reflRays", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a2f388349caf68d1ebb251301bd5a5637", null ],
+    [ "set_smoothness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a3c709a3c26f13e3f0e4a5950821b4806", null ],
+    [ "set_smoothness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unity.html#a0b5eba0ed1b75b3728ed110bf267074b", null ]
+];

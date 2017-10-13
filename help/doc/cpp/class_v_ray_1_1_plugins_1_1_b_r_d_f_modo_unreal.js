@@ -1,0 +1,26 @@
+var class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal =
+[
+    [ "get_ambient_occlusion_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a886c11bdfad4fb353892977105dd8e75", null ],
+    [ "get_base", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a252f61cf050163f1e533e727e27c60f8", null ],
+    [ "get_emissive", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#ae24aa784ff36bcda65554c1f4a860798", null ],
+    [ "get_metallic", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#abcd8ec0432e79b13264ce23ee7bec744", null ],
+    [ "get_opacityUE", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a86d57c58cebf52eef2bddc6dbdf2d438", null ],
+    [ "get_reflRays", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a4f2475c77532063acb4fad6cef5036e3", null ],
+    [ "get_roughness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a7c41da9045f4c1c91b549ce21aeaafd0", null ],
+    [ "get_specular", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a0a0deaebf198b96fff3fde703c08ee5e", null ],
+    [ "set_ambient_occlusion_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a616d260fadf8c83f4754187089e30ca9", null ],
+    [ "set_ambient_occlusion_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#ae975c833105c49bad7aefc9c6f018352", null ],
+    [ "set_base", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#adf822e32b3b9e930f09fcee7550c2412", null ],
+    [ "set_base", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#ace5feebe324360af4fab0e7817104fdf", null ],
+    [ "set_emissive", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a11a0b4f352811d2f50174c7a0c164182", null ],
+    [ "set_emissive", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#aed587ac500f4fae043ffd7128b308a41", null ],
+    [ "set_metallic", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#abfd37889f02722fec0844de343c13ebf", null ],
+    [ "set_metallic", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#aa50e46e58552bc1e561f345f79cb1452", null ],
+    [ "set_opacityUE", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a2a8975e3e380cde8b1672e9f6befdb42", null ],
+    [ "set_opacityUE", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#aa36a85abbac078d31d2eff34d40fbc9a", null ],
+    [ "set_reflRays", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a77cbcd783dd346b1f96537cf2e0f71fe", null ],
+    [ "set_roughness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#af08f24f4bed4f7666eb39bdadc0aa7a2", null ],
+    [ "set_roughness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#ad3ee844916f3ff8f7a3ec68f9af763b5", null ],
+    [ "set_specular", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#a19c938c9d971616cdb2986b195060b79", null ],
+    [ "set_specular", "class_v_ray_1_1_plugins_1_1_b_r_d_f_modo_unreal.html#adc3b935b97e590f8f20fb6d7020b08d8", null ]
+];
