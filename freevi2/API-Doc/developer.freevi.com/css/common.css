@@ -1,0 +1,494 @@
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('fonts/OpenSans/opensans_light_macroman/OpenSans-Light-webfont.eot');
+    src: url('fonts/OpenSans/opensans_light_macroman/OpenSans-Light-webfontd41d.eot?#iefix') format('embedded-opentype'),
+         url('fonts/OpenSans/opensans_light_macroman/OpenSans-Light-webfont.woff') format('woff'),
+         url('fonts/OpenSans/opensans_light_macroman/OpenSans-Light-webfont.html') format('truetype'),
+         url('fonts/OpenSans/opensans_light_macroman/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('http://freevi.com/404/');
+    src: url('http://freevi.com/404/#iefix') format('embedded-opentype'),
+         url('http://freevi.com/404/') format('woff'),
+         url('http://freevi.com/404/') format('truetype'),
+         url('http://freevi.com/404/#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('fonts/OpenSans/opensans_semibold_macroman/OpenSans-Semibold-webfont.eot');
+    src: url('fonts/OpenSans/opensans_semibold_macroman/OpenSans-Semibold-webfontd41d.eot?#iefix') format('embedded-opentype'),
+         url('fonts/OpenSans/opensans_semibold_macroman/OpenSans-Semibold-webfont.woff') format('woff'),
+         url('fonts/OpenSans/opensans_semibold_macroman/OpenSans-Semibold-webfont.html') format('truetype'),
+         url('fonts/OpenSans/opensans_semibold_macroman/OpenSans-Semibold-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+	font-family: 'icons';
+	src:url('http://developer.freevi.com/fonts/icons/icons.eot');
+	src:url('http://developer.freevi.com/fonts/icons/icons.eot?#iefix') format('embedded-opentype'),
+		url('http://developer.freevi.com/fonts/icons/icons.woff') format('woff'),
+		url('http://developer.freevi.com/fonts/icons/icons.ttf') format('truetype'),
+		url('http://developer.freevi.com/fonts/icons/icons.svg#icons') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/*Menu CSS*/
+nav#hd {
+    background-color: #fff;
+    box-shadow: 0px 0px 5px #bbb;
+    margin-bottom: 0;
+    border: none;
+}
+#toplogin td {
+    margin-left: 10px;
+    padding-right: 10px;
+}
+
+#loginHead {
+    padding: 2px;
+    color: #FFF;
+    font-weight: bold;
+    width: 100%;
+    padding: 0;
+}
+
+#loginHead a.navbar-brand {
+    /* color: #B9BBBC; */
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 50px;
+}
+
+#loginHead a:hover {
+    /* color: #FFF; */
+}
+.dheader {
+    width: 100%;
+    background: #434C56;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*border-bottom: 2px solid #DADEE6;*/
+    /*background: #505759;
+	*/
+    min-height: 35px;
+    margin-bottom: 18px;
+}
+.dheader .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+.navbar-brand img {
+    display: inline-block !important;
+
+    border-right: 1px solid #ccc;
+    margin-right: 20px;
+}
+.navbar-brand span {
+    display: inline-block;
+
+}
+#navbar {
+    /* background-color: #505759; */
+    /* background: #505759; */
+    /*padding-bottom: 2px;*/
+    float: right;
+}
+
+.navbar-nav>li>a.menuActive {
+border-top: 5px solid transparent;
+height: 100%;
+/*font-family: open_sanssemibold;  */
+padding-top: 17px !important;
+}
+.navbar-nav>li>a.menuActive:hover {
+border-top: 5px solid #0284a8;
+}
+.navbar-nav>li>a.navLink {
+display: inline-block;
+font-size: 16px;
+color: #66636c;
+text-decoration: none;
+padding: 22px 17px 17px 17px;
+font-weight: 400;
+}
+.nav>li>a>img {
+position: relative;
+top: -4px;
+}
+#navMenu li {
+
+
+}
+li.dropdownLink div.place-holder {
+    display: none;
+}
+li.dropdownLink:hover > ul.dropdown-menu{
+    display: block;
+}
+li.dropdownLink:hover > div.place-holder {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 15px;
+}
+#hd ul.dropdown-menu {
+    text-align: left;
+    width: 170px;
+    position: absolute;
+    right: 0px;
+    top: 70px;
+    left: auto;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    padding: 0;
+}
+#hd ul.dropdown-menu li {
+    float: right;
+    border-top: 1px solid #ddd;
+    padding: 10px 0 10px 0;
+    background-color: #fff;
+    width: 100%;
+}
+#hd ul.dropdown-menu li:first-child {
+    border: none;
+}
+#hd ul.dropdown-menu li a {
+    width: 120px;
+    text-decoration: none;
+    color: #66636c;
+    padding: 0;
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+#hd .dropdown-menu>li:hover, .dropdown-menu>li:focus {
+text-decoration: none;
+list-style: none;
+background-color: #efefef;
+}
+#hd .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+background-color: #efefef;
+}
+
+
+@media (max-width: 430px) {
+.navbar-brand img {
+max-width:40%;
+}
+.navbar-brand {
+height:0px !important;
+}
+.open>.dropdown-menu {
+list-style:none !important;
+}
+}
+@media (max-width: 265px) {
+.nav-tabs>li>a {
+font-size:10px;
+}
+}
+
+@media (max-width: 768px) {
+.shifter-handlea {
+background: url('../../freevi.com/img/jquery.fs.shifter-icon.png') no-repeat center center;
+cursor: pointer;
+content: '';
+display: block;
+float: right;
+height: 30px;
+width: 30px;
+overflow: hidden;
+text-indent: 110%;
+white-space: nowrap;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+padding: 10px;
+padding-right: 40px;
+}
+.cbp-spmenu-horizontal {
+font-size: 65%;
+min-height: 100px;
+height: auto;
+width: 100%;
+display:none;
+}
+.cbp-spmenu-top{
+top: 0px;
+}
+.cbp-spmenu {
+/* background: #47a3da; */
+position: fixed;
+background: #fff;
+box-shadow: 0px 0px 5px #bbb;
+}
+.cbp-spmenu-horizontal a {
+float: left;
+width: 28%;
+padding: 0.43em;
+margin: 2px;
+background-color: #00466c;
+border-radius: 2px;
+}
+.cbp-spmenu-horizontal a:hover {
+color:#fff !important;
+text-decoration:none !important;
+}
+.cbp-spmenu a {
+display: block;
+color: #fff;
+font-size: 1.2em;
+font-weight: 300;
+text-decoration: none;
+}
+.pre-order-link {
+font-family: open_sanssemibold;
+color: #fff !important;
+}
+.nav>li>a {
+padding:10px 5px !important;
+}
+.usrinfo {
+	text-align:right;
+}
+.lpad5 {
+	margin-right: 0px;
+}
+.dropdown-menu li {
+list-style:none !important;
+}
+#id_qbody_container {
+width:100% !important;
+}
+#body_preview, #tmp_preview {
+width:100% !important;
+}
+#tools {
+width:100%;
+}
+}
+
+/*     Mobile Menu CSS  */
+@media (min-width: 768px) {
+#cbp-spmenu-s3 {
+display:none !important;
+}
+}
+
+
+.nav>li>a:hover, .nav>li>a:focus {
+    background-color: inherit !important;
+}
+
+#fbPh img {
+    width: 50px !important;
+    height: 50px !important;
+}
+span#loggedInName {
+    font-family: open_sanssemibold;
+    color: #0284a8;
+}
+
+
+.error_border {
+    border: thin solid rgb(204, 0, 0) !important;
+}
+
+.developer-container {
+    min-height: 650px;
+    padding-top: 60px;
+    background-color: #f9f9f9;
+}
+
+
+.freevi-panels .panel {
+
+}
+
+.freevi-panel {
+    text-align: center;
+    padding: 15% 0;
+}
+.freevi-panel a {
+    text-decoration: none;
+    color: #999;
+}
+.freevi-panel a:hover {
+    text-decoration: none;
+}
+.freevi-panel p {
+    line-height: 300%;
+    font-size: 16px;
+}
+.freevi-panel span {
+    display: block;
+    width: 20%;
+    border-top: 1px solid #CCC;
+    margin: 0 auto;
+}
+
+
+/* Footer */
+footer.freeviFooter {
+	background-color: #303030;
+	border-bottom: 10px solid #0284a8;
+	height: auto;
+	color: #fff;
+	font-family: open_sanslight;
+
+}
+
+footer.freeviFooter h1 {
+	font-size: 20px;
+	font-family: open_sanssemibold;
+	padding: 0px;
+	color: rgba(255,255,255,0.87);
+	border-bottom: 1px solid #bbb;
+}
+
+footer.freeviFooter h4 {
+	font-size: 12px;
+	color: #bbb;
+	text-align: center;
+}
+
+footer.freeviFooter a {
+	display: inline;
+	text-decoration: none;
+	color: rgba(255,255,255,0.54);
+	width: 150px;
+}
+
+footer.freeviFooter a:hover {
+	color: rgba(255,255,255,1);
+}
+
+footer.freeviFooter .footerNugget a {
+	display: block;
+}
+
+footer.freeviFooter div {
+	display: inline-block;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	vertical-align: middle;
+}
+
+footer div.footerSection1 {
+	width: 38%;
+	min-width: 540px;
+	text-align: center;
+}
+
+footer div.footerSection2 {
+	width: 20%;
+	min-width: 300px;
+	text-align: center;
+	padding-bottom: 0px;
+}
+
+footer div.footerSection3 {
+	text-align: center;
+	min-width: 540px;
+	width: 38%;
+}
+
+footer.freeviFooter .footerNugget {
+	text-align: left;
+	padding-right: 40px;
+}
+
+footer div.footerSection3 a {
+	padding: 5px;
+}
+
+footer div.footerSocial a{
+	opacity: 0.87;
+}
+
+footer div.footerSocial a:hover{
+	opacity: 1;
+}
+
+@media screen and (max-width : 1024px){
+	footer div.footerSection3 a {
+		padding: 0px;
+	}
+	footer.freeviFooter a {
+		width: 125px;
+	}
+	footer div.footerSection1 {
+		padding-left: 10px;
+	}
+	footer div.footerSection2 {
+		min-width: 255px;
+	}
+	footer div.footerSection3 {
+		width: 18%;
+		min-width: 185px;
+	}
+}
+
+@media screen and (max-width : 768px){
+	footer div.footerSection1 {
+
+	}
+	footer div.footerSection2 {
+		min-width: 180px;
+	}
+	footer div.footerSection3 {
+		width: 100%;
+	}
+	footer.freeviFooter .footerNugget a {
+		margin-right: 0px;
+	}
+}
+
+@media screen and (max-width : 414px) {
+	footer div.footerSection2 {
+		width: 100%;
+	}
+	footer div.footerSection3 {
+		width: 100%;
+		padding-bottom: 0px;
+	}
+	footer.freeviFooter .footerNugget {
+		width: 100%;
+		padding-left: 20px;
+	}
+	footer div.footerSocial {
+		padding-bottom: 0px;
+	}
+	footer div.footerSocial img {
+		width: 60px;
+	}
+}
+
+@media screen and (max-width: 375px) {
+	footer div.footerSocial img {
+		width: 55px;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	footer div.footerSocial img {
+		width: 46px;
+	}
+}

@@ -1,0 +1,36 @@
+/*@import url(http://fonts.googleapis.com/css?family=Open+Sans);*/
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.bar {
+	background-image: none;
+	background-color: #0284A8;
+}
+
+.topNav {
+	background-color: #0284A8;
+}
+
+.navBarCell1Rev {
+	background-image: none;
+	background-color: #00456a;
+	border: 1px solid #00456a;
+}
+
+.overviewSummary caption span, .packageSummary caption span, .contentContainer ul.blockList li.blockList caption span, .summary caption span, .classUseContainer caption span, .constantValuesContainer caption span {
+	background-color: #00456a;
+	background-image: none;
+}
+
+.overviewSummary .tabEnd, .packageSummary .tabEnd, .contentContainer ul.blockList li.blockList .tabEnd, .summary .tabEnd, .classUseContainer .tabEnd, .constantValuesContainer .tabEnd {
+width: 10px;
+	background-image: none;
+}
+
+.bottomNav {
+	background-image: none;
+	background-color: #00456a;
+}
