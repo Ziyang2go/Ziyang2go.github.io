@@ -1,0 +1,25 @@
+var class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s =
+[
+    [ "get_back_color", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#aa34a33eaa11d5b1afd2f95b4da1abdf2", null ],
+    [ "get_color", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#af523810bf0a2d8bc215e5f0b1d52fe2c", null ],
+    [ "get_color_tex", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#af8996f0c1d58a111be2743979b226c96", null ],
+    [ "get_color_tex_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a8baa0da141e4ccbb2be521d262360abc", null ],
+    [ "get_roughness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a52d2b8a07f984ebdc8428a718d79c266", null ],
+    [ "get_transparency", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#aeb7defc3b73fa65a21938a2e4134fc5d", null ],
+    [ "get_transparency_tex", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a62201a99cc50392f46d84b4959b2d2ee", null ],
+    [ "get_transparency_tex_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a2e4b343bba87197198f4139da75fac83", null ],
+    [ "get_use_irradiance_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#aea13a09f97083a87a8e9a786df539437", null ],
+    [ "set_back_color", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a674765e6f4409b980ba7c96c8da8c774", null ],
+    [ "set_back_color", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#adaacfa2a89d7d9e3f68af1f7fb1aa913", null ],
+    [ "set_color", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#ab17599fe3bbc253b128f6d24be119bb2", null ],
+    [ "set_color_tex", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a7d8e722ba16904289f3e437bd395801f", null ],
+    [ "set_color_tex", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a1eac6ecf853f3d54b28745d5952bc97b", null ],
+    [ "set_color_tex_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#ad68dca81816ea5d47c49c82880ca6390", null ],
+    [ "set_roughness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a76890ccdaa9a98530c00fc3230da0c4d", null ],
+    [ "set_roughness", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a1efe833bb1101d94af7b838ce181942a", null ],
+    [ "set_transparency", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a45a22767353fda4f39ed1b99e6554f2a", null ],
+    [ "set_transparency_tex", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#aff9d70a7691ea2ba710e1402a6e280f6", null ],
+    [ "set_transparency_tex", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a5318d20031e6b12d735ba0c2932abc82", null ],
+    [ "set_transparency_tex_mult", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a6116f258e8ee5d948b20217290755ad6", null ],
+    [ "set_use_irradiance_map", "class_v_ray_1_1_plugins_1_1_b_r_d_f_diffuse__for_s_s_s.html#a1ea7b6a6bd4aa5ca9379532477e9d1ba", null ]
+];

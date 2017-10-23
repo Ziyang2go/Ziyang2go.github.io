@@ -1,0 +1,32 @@
+.. V-Ray App SDK for Python documentation master file, created by
+   sphinx-quickstart on Tue Jan 15 12:24:34 2013.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to V-Ray App SDK for Python's documentation!
+====================================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+.. automodule:: vray
+    :members:
+    :undoc-members:
+    :show-inheritance:
+	
+.. automodule:: plugins
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

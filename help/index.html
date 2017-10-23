@@ -1,0 +1,2555 @@
+<!DOCTYPE>
+<html>
+<head>
+	<title>V-Ray Application SDK Guide</title>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">	
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript">var StorageManager = (function() {
+	var store = window.localStorage || {};
+	store.lang = store.lang || 'python';
+	
+	return {
+		getStorage : function() {
+			return store;
+		}
+	};
+}());
+
+var View = function() {
+};
+
+// retrieve the language class as specified in the class attribute of the list item
+View.prototype.extractLanguage = function(li) {
+	li = li || {};
+	var classes = li.attr('class') || '';
+	var selectedLang = classes.match(/python|cpp|csharp|nodejs/g);
+	return selectedLang[0];
+};
+
+// change the displayed language to the specified one
+View.prototype.activateLanguage = function(lang) {
+	var store = StorageManager.getStorage();	
+	store.lang = lang;
+
+	// activate tab content
+	$('div.tab-pane').removeClass('active');
+	$('div.' + lang).addClass('active');
+			
+	// activate tab headers
+	$('.nav-tabs').children().removeClass('active');
+	$('li.' + lang).addClass('active');
+};
+
+View.prototype.getViewPortOffset = function(target) {
+	return target.offset().top - $('body').scrollTop();
+};
+
+View.prototype.scrollTop = function(y) {
+	$('body').scrollTop(y);
+};
+
+// refreshes the scroll spy cache
+// it is needed in the cases when the DOM changes
+View.prototype.refreshScroll = function() {
+	$('[data-spy="scroll"]').each(function () {
+		$(this).scrollspy('refresh');
+	});
+};
+
+var Events = function(view) {
+	if (!(this instanceof Events)) {
+		return new Events(view);
+	}
+
+	this.changeLanguageHandler = function(event) {
+		// preserve the relative scroll position in the current view
+		var target = $(event.target);
+		var offsetTopInView = view.getViewPortOffset(target);
+		
+		// change the currently displayed language
+		var lang = view.extractLanguage(target.parent());
+		view.activateLanguage(lang);
+		
+		// return the relative scroll position
+		view.scrollTop(target.offset().top - offsetTopInView);
+		view.refreshScroll();
+	}
+};
+
+$(function(){
+	// register click events
+	var view = new View();
+	var events = Events(view);
+	$('a[data-toggle="tab"]').click(events.changeLanguageHandler);
+	
+	// activate the preferred language choice
+	var store = StorageManager.getStorage();
+	view.activateLanguage(store.lang);
+})</script>
+	
+	
+</head>
+<body data-spy="scroll" data-target=".sidebar-nav">
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</a>
+				<a class="brand" href="#">User Guide V-Ray Application SDK</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<!-- li class="active"><a href="#">Home</a></li-->						
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+    </div>
+	
+	<!-- Navigation -->
+	<div class="col-md-3 sidebar-fixed">
+		
+		<div id="guideNavBar">
+			<!-- User Guide -->
+			<div class="well sidebar-nav">
+				<ul class="nav nav-list">
+					<li class="nav-header">Topics</li>
+					
+					<li><a href="#index">I. Introduction</a></li>
+					
+					<li><a href="#basicRendering">II. Basic Rendering</a></li>
+					
+					<li><a href="#renderModes">III. Render Modes</a></li>
+					
+					<li><a href="#commonEvents">IV. Common Events</a></li>
+					
+					<li><a href="#productionEvents">V. Production Events</a></li>
+					
+					<li><a href="#rtEvents">VI. RT Events</a></li>
+					
+					<li><a href="#vrayImages">VII. V-Ray Images</a></li>
+					
+					<li><a href="#RenderElements">VIII. Render Elements</a></li>
+					
+					<li><a href="#plugins">IX. Plugins</a></li>
+					
+					<li><a href="#types">X. Property Types</a></li>
+					
+					<li><a href="#animations">XI. Animations</a></li>
+					
+					<li><a href="#vrayServer">XII. V-Ray Server</a></li>
+					
+					<li><a href="#dr">XIII. Distributed Rendering</a></li>
+					
+					<li><a href="#setup">XIV. Setup</a></li>
+											
+				</ul>
+			</div><!--/.well -->
+			
+			<!-- API Reference -->
+			<div id="apiReferenceNavBar" class="well sidebar-nav">
+				<ul class="nav nav-list">
+					<li class="nav-header">API Reference Guides</li>
+					<li><a href="./doc/cpp/index.html">C++</a></li>
+					<li><a href="./doc/csharp/index.html">C#.NET</a></li>
+					<li><a href="./doc/node.js/index.html">Node.js</a></li>
+					<li><a href="./doc/python27/index.html">Python</a></li>
+				</ul>
+			</div><!--/.well -->
+		</div>
+	</div><!--/span-->
+	
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="content col-md-6">
+			<h1 class="center-narrow">User Guide</h1>
+			<h1 class="center-wide">V-Ray Application SDK</h1>
+			<!-- Topic Content -->	
+							
+				<div id="index" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">I. Introduction</h3>
+					<p>
+	The V-Ray Application SDK allows third-party integrators to initiate and control a rendering process that makes use 
+	of the V-Ray engine. It provides a high-level API that enables users to render and manipulate a V-Ray scene inside the host process
+	or outside it using distributed rendering. The scene may be created in memory by translating the native format to
+	V-Ray plugins or it could be loaded from a file, potentially exported from another application.
+</p>
+				</div>
+							
+				<div id="basicRendering" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">II. Basic Rendering</h3>
+					<p>
+	The V-Ray Application SDK exposes a VRayRenderer class that initiates and controls any rendering process.
+	The class defines high-level methods for creating or loading a V-Ray scene and rendering it. It hides the
+	inner complexities of the V-Ray engine while keeping its powerful capabilities.
+</p>
+<p>
+	The basic workflow for starting a render process usually consists of the following steps:
+	<ul>
+		<li>Instantiating the configurable VRayRenderer class</li>
+		<li>Either of (or even a combination of):<ul>
+			<li>Creating new instances of V-Ray render plugins to translate your native scene description to V-Ray and setting their parameters</li>
+			<li>Loading a scene by specifying a path to a .vrscene file (the V-Ray native format for serializing scenes)</li>
+		</ul></li>
+		<li>Invoking the method for rendering</li>
+		<li>Waiting for the image to become available</li>
+		<li>Cleaning up memory resources by closing the VRayRenderer</li>
+	</ul>
+</p>
+<p>
+	All language implementations of the VRayRenderer class offer a method without arguments (start()) that is used
+	to start the rendering of the currently loaded scene. The method is a non-blocking call which internally runs
+	the V-Ray engine in a separate thread. Thus the rendering can conveniently take place as a background process
+	without the need to use language-specific tools for creating threads.
+</p>
+<p>
+	The VRayRenderer class gives access to the current state of the rendered image at any point in time. 
+	Whether the render process has finished or not, an image can be extracted to track the progress 
+	of the rendering. All language bindings expose a method that returns an image object which holds the rendered image data at the time of the request. This image class can be used for direct display or to
+	save the rendered image to a file in one of several supported popular compression formats.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonbasicRendering1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPbasicRendering1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpbasicRendering1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsbasicRendering1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonbasicRendering1">
+<pre class="brush:python">
+import vray
+
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+
+    renderer.waitForImageReady(6000)
+    image = renderer.getImage()
+    image.save(&#39;car.png&#39;)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPbasicRendering1">
+<pre class="brush:cpp">
+#include &#34;vraysdk.hpp&#34;
+using namespace VRay;
+
+VRayInit init;
+
+VRayRenderer renderer;
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+
+renderer.waitForImageReady(6000);
+VRayImage* image = renderer.getImage();
+image-&gt;saveToPngFile(&#34;car.png&#34;);
+delete image;
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpbasicRendering1">
+<pre class="brush:csharp">
+using VRay;
+
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+
+    renderer.WaitForImageReady(6000);
+    VRayImage image = renderer.GetImage();
+    image.SaveToPNG(&#34;car.png&#34;);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsbasicRendering1">
+<pre class="brush:javascript">
+var vray = require(&#39;../vray&#39;);
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;
+    renderer.start();
+    
+    renderer.waitForImageReady(6000, function() {
+        var image = renderer.getImage();
+        image.save(&#39;car.png&#39;, function() {
+            renderer.close();
+        });
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure II.1</span>
+</div></div>
+				</div>
+							
+				<div id="renderModes" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">III. Render Modes</h3>
+					<p>
+	The V-Ray Application SDK offers the ability to run the V-Ray engine in three distinct render modes 
+	- Production, RT CPU and RT GPU. Production mode is suitable for obtaining the final desired image 
+	after the scene has been carefully configured as the render process can take a lot of time before 
+	the whole image is available. The strength of the RT modes on the other 
+	hand lies in the fast image preview and progressive image quality improvement which makes them the 
+	perfect choice for experimenting with scene settings and modifying content and receiving fast render
+	feedback. The RT engine is supported in two flavors - CPU and GPU. The former utilizes the CPU resources
+	while the latter takes advantage of the graphics card computing power. The GPU rendering type is in turn
+	subdivided into two modes - OpenCL and CUDA (nVidia only) depending on the technology that is used with the GPU.
+</p>
+<p>
+	The type of the rendering initiated with the VRayRenderer class can be chosen easily through an 
+	instance of the RendererOptions class that is passed as an argument to the VRayRenderer constructor.
+	The render mode is determined by the provided options upon instantiating the VRayRenderer. The default
+	render mode for the VRayRenderer class is RT CPU and instantiating the VRayRenderer class without
+	specifying any options is equivalent to passing to the VRayRenderer constructor an instance of the
+	default options. The render mode can be changed between renders to avoid having to re-create or
+	re-load the scene. This allows you to work interactively on a scene with V-Ray RT and then to switch
+	to production mode for final rendering without any overhead.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonrenderModes1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPrenderModes1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharprenderModes1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsrenderModes1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonrenderModes1">
+<pre class="brush:python">
+with vray.VRayRenderer(renderMode=&#39;production&#39;) as renderer:
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+
+    renderer.waitForImageReady(6000)
+    image = renderer.getImage()
+    image.save(&#39;car.png&#39;)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPrenderModes1">
+<pre class="brush:cpp">
+VRayInit init;
+
+RendererOptions options;
+options.renderMode = RendererOptions::RENDER_MODE_PRODUCTION;
+
+VRayRenderer renderer(options);
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+
+renderer.waitForImageReady(6000);
+VRayImage* image = renderer.getImage();
+image-&gt;saveToPngFile(&#34;car.png&#34;);
+delete image;
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharprenderModes1">
+<pre class="brush:csharp">
+RendererOptions options = new RendererOptions();
+options.RenderMode = RenderMode.Production;
+
+using (VRayRenderer renderer = new VRayRenderer(options))
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+
+    renderer.WaitForImageReady(6000);
+    VRayImage image = renderer.GetImage();
+    image.SaveToPNG(&#34;car.png&#34;);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsrenderModes1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer({
+    renderMode : &#39;production&#39;
+});
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function() {
+        var image = renderer.getImage();
+        image.save(&#39;car.png&#39;, function() {
+            renderer.close();
+        });
+  });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure III.1</span>
+</div></div>
+				</div>
+							
+				<div id="commonEvents" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">IV. Common Events</h3>
+					<p>
+	During the rendering process that runs in the background in a separate thread V-Ray emits a number of events that are available to AppSDK users. You can subscribe to the rendering events through the main
+	VRayRenderer class.
+</p>
+<p>
+	The V-Ray Application SDK provides the means for attaching callbacks that execute custom client logic when an 
+	event occurs. The code of the callbacks is executed in a separate thread that is different from the main V-Ray
+	rendering thread. This design allows the V-Ray rendering process to remain fast without additional overhead
+	and ensures that slow operations in client callback code will not affect the total rendering time. Keep in mind that slow user callbacks may delay the execution of other callbacks.
+</p>
+<p>
+	The events can be broadly classified into three types: events common for all render modes, events specific 
+	to Production mode and events specific to RT mode. This section covers the events that are emitted regardless of 
+	the used render mode.
+</p>
+<p>
+	The common render events occur when:
+	<ul>
+		<li>The image rendering starts and stops</li>
+		<li>V-Ray outputs text messages prior to and during rendering</li>
+		<li>V-Ray switches the current task (i.e. loading, rendering) and reports progress percentage</li>
+	</ul>
+</p>
+
+<h4>Start Event</h4>
+<p>
+	The start event is the first event to be emitted after the render process has been started with the VRayRenderer 
+	start() method. The V-Ray Application SDK enables API users to attach a callback without arguments whose code 
+	is executed immediately after the start event is emitted. Unless startSync() is used instead of the asynchronous start() method, no changes should be made to the scene and renderer state before the started event occurs.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythoncommonEvents1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPcommonEvents1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpcommonEvents1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejscommonEvents1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythoncommonEvents1">
+<pre class="brush:python">
+def onRenderStart(renderer):
+    print(&#39;The V-Ray render process has started!&#39;)
+
+with vray.VRayRenderer() as renderer:
+    renderer.setOnRenderStart(onRenderStart)
+
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+
+    renderer.waitForImageReady(6000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPcommonEvents1">
+<pre class="brush:cpp">
+void onRenderStart(VRayRenderer&amp; renderer, void* userData)
+{
+    printf(&#34;The V-Ray render process has started!\n&#34;);
+}
+
+VRayInit init;
+
+VRayRenderer renderer;
+renderer.setOnRenderStart(onRenderStart);
+
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+
+renderer.waitForImageReady(6000);
+
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpcommonEvents1">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.RenderStarted += new EventHandler((source, e) =&gt;
+    {
+        Console.WriteLine(&#34;The V-Ray render process has started!&#34;);
+    });
+
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+
+    renderer.WaitForImageReady(6000);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejscommonEvents1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.on(&#39;start&#39;, function() {
+    console.log(&#39;The V-Ray render process has started!&#39;);
+});
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;	
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function() {});
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IV.1</span>
+</div></div>
+
+<h4>Log Message Event</h4>
+<p>
+	Output messages are produced by the V-Ray engine during scene loading and rendering and they can be captured
+	by subscribing to the message log (dump) event. The callback data that becomes available when a message is logged is
+	the text of the message and the log level type (info, warning or error).
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythoncommonEvents2" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPcommonEvents2" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpcommonEvents2" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejscommonEvents2" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythoncommonEvents2">
+<pre class="brush:python">
+def onDumpMessage(renderer, message, level):
+    levelText = &#34;error&#34;
+    if level &gt;= 10000:
+        levelText = &#34;warning&#34;
+    if level &gt;= 20000:
+        levelText = &#34;info&#34;
+    print(&#39;[{0}] {1}&#39;.format(levelText, message))
+
+with vray.VRayRenderer() as renderer:
+    renderer.setOnDumpMessage(onDumpMessage)
+
+    # ...
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPcommonEvents2">
+<pre class="brush:cpp">
+void onLogMessage(VRayRenderer&amp; renderer, const char* message, int level, void* userData)
+{
+    const char *levelText = &#34;error&#34;;
+    if (level &gt;= 10000)
+        levelText = &#34;warning&#34;;
+    if (level &gt;= 20000)
+        levelText = &#34;info&#34;;
+    printf(&#34;[%s] %s\n&#34;, levelText, message);
+}
+
+VRayRenderer renderer;
+renderer.setOnDumpMessage(onLogMessage);
+
+// ...
+
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpcommonEvents2">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.MessageLogged += new EventHandler&lt;MessageEventArgs&gt;((source, e) =&gt;
+    {
+        Console.WriteLine(&#34;[{0}] {1}&#34;, e.LogLevel.Type, e.Message);
+    });
+
+    // ...
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejscommonEvents2">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.on(&#39;dumpMessage&#39;, function(message, level) {
+    var levelText = &#34;error&#34;;
+    if (level &gt;= 10000)
+        levelText = &#34;warning&#34;;
+    if (level &gt;= 20000)
+        levelText = &#34;info&#34;;
+    console.log(&#39;[%s] %s&#39;, levelText, message);
+});
+
+// ...
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IV.2</span>
+</div></div>
+
+<h4>Progress Event</h4>
+<p>
+	Progress events are emitted whenever the current task changes and also when the amount of work done increases.
+	They include a short message with the current task name and two numbers for the total amount of work to do and
+	the work that is already complete.
+</p>
+
+<h4>Image Ready Event</h4>
+<p>
+	When the rendering process finishes an image ready event is emitted to notify subscribers that the image result can be obtained. The purpose of the event is to mark the end of the rendering process. Note that this is also emitted when the rendering is aborted, so you can still count on it to perform your cleanup.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythoncommonEvents3" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPcommonEvents3" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpcommonEvents3" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejscommonEvents3" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythoncommonEvents3">
+<pre class="brush:python">
+def onImageReady(renderer):
+    image = renderer.getImage()
+    image.save(&#39;car.png&#39;)
+
+with vray.VRayRenderer() as renderer:
+    renderer.setOnImageReady(onImageReady)
+    
+    # ...
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPcommonEvents3">
+<pre class="brush:cpp">
+void onImageReady(VRayRenderer&amp; renderer, void* userData)
+{
+    VRayImage* image = renderer.getImage();
+    image-&gt;saveToPngFile(&#34;car.png&#34;);
+    delete image;
+}
+
+VRayRenderer renderer;
+renderer.setOnImageReady(onImageReady);
+
+// ...
+
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpcommonEvents3">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.ImageReady += new EventHandler((source, e) =&gt;
+    {
+        VRayImage image = renderer.GetImage();
+        image.SaveToPNG(&#34;car.png&#34;);
+    });
+
+    // ...
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejscommonEvents3">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.on(&#39;imageReady&#39;, function() {
+    var image = renderer.getImage();
+    image.save(&#39;car.png&#39;, function() {
+        renderer.close();
+   });
+});
+
+// ...
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IV.3</span>
+</div></div>
+				</div>
+							
+				<div id="productionEvents" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">V. Production Events</h3>
+					<p>
+	There are two types of image sampling in Production mode - "bucket" rendering and progressive rendering.
+	Bucket rendering splits the image into small rectangular sub-images, each processed independently by a
+	different local CPU thread or network server (see the Distributed Rendering section). The sub-images are
+	only returned when completely ready. Progressive rendering works the same way as in RT mode - the whole
+	image is sampled and images are returned for each sampling pass, reducing noise with each pass. This
+	section covers the events which are specific to	Production bucket rendering only. The progressive mode
+	emits the image event described in the RT Events section further below.
+</p>
+<p>
+	There are two phases in Production bucket rendering - assigning a bucket to a render host (or local thread)
+	and rendering the assigned region of the image. This is why there are two events that are raised for each bucket
+	of the image - initializing a bucket and receiving the image result. Users of the API can subscribe to the events
+	via the main VRayRenderer class.
+</p>
+<p>
+	In Production bucket mode the image is perceived as a grid of rectangular regions, "buckets". 
+	The bucket is uniquely identified by the coordinates of its top left corner and the width and height of its 
+	rectangular region. The top left corner of the whole image has coordinates (0, 0).
+</p>
+
+<h4>Bucket Init Event</h4>
+<p>
+	The bucket init event is raised when the main V-Ray thread assigns a bucket to a network render host or local thread.
+	The callback data that is provided for this event is the bucket size and coordinates as well as	the name of the
+	render host (if any) as it appears on the network.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonproductionEvents1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPproductionEvents1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpproductionEvents1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsproductionEvents1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonproductionEvents1">
+<pre class="brush:python">
+def onBucketInit(renderer, bucket):
+    print(&#39;Starting bucket:&#39;)
+    print(&#39;\t x: &#39;, bucket.x)
+    print(&#39;\t y: &#39;, bucket.y)
+    print(&#39;\t width: &#39;, bucket.width)
+    print(&#39;\t height:&#39;, bucket.height)
+    print(&#39;\t host:&#39;, bucket.host)
+
+with vray.VRayRenderer(renderMode=&#39;production&#39;) as renderer:
+    renderer.setOnBucketInit(onBucketInit)
+
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+    renderer.waitForImageReady()
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPproductionEvents1">
+<pre class="brush:cpp">
+void onBucketInit(VRayRenderer&amp; renderer, int x, int y, int width, int height, const char* host, void* userData)
+{
+    printf(&#34;Starting bucket:\n&#34;);
+    printf(&#34;\t x: %d\n&#34;, x);
+    printf(&#34;\t y: %d\n&#34;, y);
+    printf(&#34;\t width: %d\n&#34;, width);
+    printf(&#34;\t height: %d\n&#34;, height);
+    printf(&#34;\t host: %s\n&#34;, host);
+}
+
+VRayInit init;
+
+RendererOptions options;
+options.renderMode = RendererOptions::RENDER_MODE_PRODUCTION;
+
+VRayRenderer renderer(options);
+renderer.setOnBucketInit(onBucketInit);
+
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+renderer.waitForImageReady();
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpproductionEvents1">
+<pre class="brush:csharp">
+RendererOptions options = new RendererOptions();
+options.RenderMode = RenderMode.Production;
+
+using (VRayRenderer renderer = new VRayRenderer(options))
+{
+    renderer.BucketInit += new EventHandler&lt;BucketRegionEventArgs&gt;((source, e) =&gt;
+    {
+        Console.WriteLine(&#34;Starting bucket:&#34;);
+        Console.WriteLine(&#34;\t x:&#34; + e.X);
+        Console.WriteLine(&#34;\t y:&#34; + e.Y);
+        Console.WriteLine(&#34;\t width:&#34; + e.Width);
+        Console.WriteLine(&#34;\t height:&#34; + e.Height);
+        Console.WriteLine(&#34;\t host:&#34; + e.Host);
+    });
+
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+    renderer.WaitForImageReady();
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsproductionEvents1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer({
+    renderMode : &#39;production&#39;
+});
+
+renderer.on(&#39;bucketInit&#39;, function(region) {
+    console.log(&#39;Starting bucket:&#39;);
+    console.log(&#39;\t x:&#39; + region.x);
+    console.log(&#39;\t y:&#39; + region.y);
+    console.log(&#39;\t width:&#39; + region.width);
+    console.log(&#39;\t height:&#39; + region.height);
+    console.log(&#39;\t host:&#39; + region.host);
+});
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;
+    renderer.start();
+
+    renderer.waitForImageReady(function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure V.1</span>
+</div></div>
+
+<h4>Bucket Ready Event</h4>
+<p>
+	The bucket ready event is raised when the render host that has been assigned a bucket has finished rendering the 
+	part of the image and has sent its result to the main V-Ray thread. The returned callback data for the event contains 
+	the size and coordinates of the region, the render host name and the produced image.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonproductionEvents2" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPproductionEvents2" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpproductionEvents2" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsproductionEvents2" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonproductionEvents2">
+<pre class="brush:python">
+def onBucketReady(renderer, bucket):
+    print(&#39;Bucket ready:&#39;)
+    print(&#39;\t x: &#39;, bucket.x)
+    print(&#39;\t y: &#39;, bucket.y)
+    print(&#39;\t width: &#39;, bucket.width)
+    print(&#39;\t height:&#39;, bucket.height)
+    print(&#39;\t host:&#39;, bucket.host)
+
+    fileName = &#39;car-{0}-{1}.png&#39;.format(bucket.x, bucket.y)
+    bucket.save(fileName)
+
+with vray.VRayRenderer(renderMode=&#39;production&#39;) as renderer:
+    renderer.setOnBucketReady(onBucketReady)
+
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+    renderer.waitForImageReady()
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPproductionEvents2">
+<pre class="brush:cpp">
+void onBucketReadyCallback(VRayRenderer&amp; renderer, int x, int y, const char* host, VRayImage* image, void* userData)
+{
+    printf(&#34;Bucket ready:\n&#34;);
+    printf(&#34;\t x: %d\n&#34;, x);
+    printf(&#34;\t y: %d\n&#34;, y);
+    printf(&#34;\t width: %d\n&#34;, image-&gt;getWidth());
+    printf(&#34;\t height: %d\n&#34;, image-&gt;getHeight());
+    printf(&#34;\t host: %s\n&#34;, host);
+
+    char fileName[64];
+    sprintf(fileName, &#34;car-%d-%d.png&#34;, x, y);
+    image-&gt;saveToPngFile(fileName);
+}
+
+VRayInit init;
+
+RendererOptions options;
+options.renderMode = RendererOptions::RENDER_MODE_PRODUCTION;
+
+VRayRenderer renderer(options);
+renderer.setOnBucketReady(onBucketReadyCallback);
+
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+renderer.waitForImageReady();
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpproductionEvents2">
+<pre class="brush:csharp">
+RendererOptions options = new RendererOptions();
+options.RenderMode = RenderMode.Production;
+
+using (VRayRenderer renderer = new VRayRenderer(options))
+{
+    renderer.BucketReady += new EventHandler&lt;BucketImageEventArgs&gt;((source, e) =&gt;
+    {
+        Console.WriteLine(&#34;Bucket ready:&#34;);
+        Console.WriteLine(&#34;\t x:&#34; + e.X);
+        Console.WriteLine(&#34;\t y:&#34; + e.Y);
+        Console.WriteLine(&#34;\t width:&#34; + e.Width);
+        Console.WriteLine(&#34;\t height:&#34; + e.Height);
+        Console.WriteLine(&#34;\t host:&#34; + e.Host);
+
+        VRayImage image = e.Image;
+        image.SaveToPNG(string.Format(&#34;car-{0}-{1}.png&#34;, e.X, e.Y));
+        image.Dispose();
+    });
+
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+    renderer.WaitForImageReady();
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsproductionEvents2">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer({
+    renderMode : &#39;production&#39;
+});
+
+renderer.on(&#39;bucketReady&#39;, function(bucket) {
+    console.log(&#39;Bucket ready:&#39;);
+    console.log(&#39;\t x:&#39; + bucket.x);
+    console.log(&#39;\t y:&#39; + bucket.y);
+    console.log(&#39;\t width:&#39; + bucket.width);
+    console.log(&#39;\t height:&#39; + bucket.height);
+    console.log(&#39;\t host:&#39; + bucket.host);
+
+    var fileName = &#39;car-&#39; + bucket.x + &#39;-&#39; + bucket.y + &#39;.png&#39;
+    bucket.save(fileName, function() {
+        bucket.close();
+    });
+});
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;	
+    renderer.start();
+    
+    renderer.waitForImageReady(function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure V.2</span>
+</div></div>
+				</div>
+							
+				<div id="rtEvents" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">VI. RT Events</h3>
+					<p>
+	One of the render modes provided by the V-Ray Application SDK is RT. Its purpose is to allow users to receive 
+	fast feedback for the scene they have configured. Noisy images are quickly available when the RT render
+	process starts. As this process continues, it returns new intermediate images with progressively better 
+	quality. The V-Ray Application SDK gives access to those intermediate images through the RT engine event for an updated image. This event is also emitted in production
+	mode when the image sampler is set to progressive mode, not buckets.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonrtEvents1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPrtEvents1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharprtEvents1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsrtEvents1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonrtEvents1">
+<pre class="brush:python">
+counter = 0
+
+def onImageUpdated(renderer, image):
+    global counter
+    counter += 1
+    fileName = &#39;car-{0}.jpeg&#39;.format(counter)
+    image.save(fileName)
+
+with vray.VRayRenderer() as renderer:
+    renderer.setOnRtImageUpdated(onImageUpdated)
+
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+    renderer.waitForImageReady()
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPrtEvents1">
+<pre class="brush:cpp">
+int counter = 0;
+
+void onRTImageUpdated(VRayRenderer&amp; renderer, VRayImage* image, void* userData)
+{
+    char fileName[64];
+    sprintf(fileName, &#34;car-%d.jpeg&#34;, ++counter);
+    image-&gt;saveToJpegFile(fileName);
+}
+
+VRayInit init;
+
+VRayRenderer renderer;
+renderer.setOnRTImageUpdated(onRTImageUpdated);
+
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+renderer.waitForImageReady();
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharprtEvents1">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    int counter = 0;
+    renderer.RTImageUpdated += new EventHandler&lt;VRayImageEventArgs&gt;((source, e) =&gt; 
+    {
+        string fileName = string.Format(&#34;car-{0}.jpeg&#34;, ++counter);
+        e.Image.SaveToJPEG(fileName);
+        e.Image.Dispose();
+    });
+
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+    renderer.WaitForImageReady();
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsrtEvents1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+var counter = 0;
+renderer.on(&#39;rtImageUpdated&#39;, function(image) {
+    var fileName = &#39;car-&#39; + (++counter) + &#39;.jpeg&#39;;
+    image.save(fileName, function() {
+        image.close();
+    });
+});
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;	
+    renderer.start();
+
+    renderer.waitForImageReady(function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure VI.1</span>
+</div></div>
+				</div>
+							
+				<div id="vrayImages" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">VII. V-Ray Images</h3>
+					<p>
+	The VRayImage class provides access to the images rendered by V-Ray. It is used by the VRayRenderer, as well 
+	as by some of the arguments of the callbacks invoked when an event occurs. 
+	The VRayImage class provides utility functions for manipulating the 
+	retrieved binary image data. The binary data is in full 32-bit float per channel format and can be accessed directly,
+	but there are convenience methods that perform compression in several of the most popular 8-bit
+	formats - BMP, JPEG, PNG and WebP. Saving EXR and other high dynamic range formats is also possible through another API, VRayRenderer.saveImage.
+</p>
+<p>
+	The methods that are exposed by the VRayImage class come in two flavors. The first group of methods directly returns the bytes of the compressed image, while the second group compresses the image and saves it to a file.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonvrayImages1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPvrayImages1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpvrayImages1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsvrayImages1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonvrayImages1">
+<pre class="brush:python">
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+    renderer.waitForImageReady(6000)
+
+    image = renderer.getImage()
+    data = image.compress(&#39;png&#39;)
+    with open(&#39;car.png&#39;, &#39;wb&#39;) as outStream:
+        outStream.write(data)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPvrayImages1">
+<pre class="brush:cpp">
+VRayInit init;
+
+VRayRenderer renderer;	
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+renderer.waitForImageReady(6000);
+
+VRayImage* image = renderer.getImage();
+Png png = image-&gt;toPng();
+
+ofstream outputStream(&#34;car.png&#34;, ofstream::binary);
+outputStream.write((char*) png.getBuf(), png.getLen());
+outputStream.close();
+
+delete image;
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpvrayImages1">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+    renderer.WaitForImageReady(6000);
+    
+    VRayImage image = renderer.GetImage();
+    byte[] data = image.ToPNG();
+    
+    using(FileStream outStream = new FileStream(&#34;car.png&#34;, FileMode.Create, FileAccess.Write)) 
+    {
+        outStream.Write(data, 0, data.Length);
+    }
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsvrayImages1">
+<pre class="brush:javascript">
+var fs = require(&#39;fs&#39;);
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function() {
+        var image = renderer.getImage();
+        image.compress(&#39;png&#39;, function(err, buffer) {
+            fs.writeFile(&#39;car.png&#39;, buffer, function() {
+                renderer.close();
+            });
+        });
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure VII.1</span>
+</div></div>
+
+<p>
+	All instances of the VRayImage class must be closed so that memory resources held by the instance are released. 
+	It is recommended to always free the resources (close the image) when you have finished working with the image. 
+	The platforms that support a garbage collection mechanism will take care of freeing the internally held 
+	resources in the event that the user does not close the retrieved image.
+</p>
+
+<h4>Downscaling</h4>
+<p>
+	In addition to the utility methods for compression, the VRayImage class supports downscale operations that resize 
+	the retrieved image to a smaller one. The result of the downscale operations is another VRayImage instance which 
+	has all the utility methods of the class.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonvrayImages2" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPvrayImages2" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpvrayImages2" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsvrayImages2" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonvrayImages2">
+<pre class="brush:python">
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+    renderer.waitForImageReady(6000)
+
+    image = renderer.getImage()
+    downscaled = image.downscale(260, 180)
+    downscaled.save(&#39;car.png&#39;)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPvrayImages2">
+<pre class="brush:cpp">
+VRayInit init;
+
+VRayRenderer renderer;	
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+renderer.waitForImageReady(6000);
+
+// LocalVRayImage uses stack memory
+LocalVRayImage image = renderer.getImage();
+LocalVRayImage downscaled = image-&gt;downscale(260, 180);
+downscaled-&gt;saveToPngFile(&#34;car.png&#34;);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpvrayImages2">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+    renderer.WaitForImageReady(6000);
+
+    using (VRayImage image = renderer.GetImage())
+    {
+        using (VRayImage downscaled = image.GetDownscaled(260, 180))
+        {
+            downscaled.SaveToPNG(&#34;car.png&#34;);
+        }
+    }
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsvrayImages2">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./car.vrscene&#39;, function (err) {
+    if (err) throw err;
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function () {
+        var image = renderer.getImage();
+        image.downscale(260, 180, function(downscaled) {
+            downscaled.save(&#39;car.png&#39;, function() {		
+                downscaled.close();  // Not mandatory, can be left to the garbage collector
+                image.close();       // Not mandatory, can be left to the garbage collector
+                renderer.close();
+            });
+        });
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure VII.2</span>
+</div></div>
+
+<h4>Changing the Image Size</h4>
+<p>
+	The size of the rendered image can be controlled with the help of the renderer options passed to the 
+	constructor of the VRayRenderer class. The width and height of the target image can be changed before instantiating 
+	a renderer, and therefore all images rendered by it will have the same dimensions. If the image width and height are not 
+	specified (i.e. by default they remain 0) then the size of the rendered image is determined on a scene-by-scene 
+	basis by the concrete settings saved in the &quot;.vrscene&quot; file of the currently loaded scene.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonvrayImages3" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPvrayImages3" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpvrayImages3" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsvrayImages3" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonvrayImages3">
+<pre class="brush:python">
+with vray.VRayRenderer() as renderer:
+    renderer = vray.VRayRenderer(imageWidth=640, imageHeight=360)
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+    renderer.waitForImageReady(6000)
+
+    image = renderer.getImage()
+    image.save(&#39;car.png&#39;)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPvrayImages3">
+<pre class="brush:cpp">
+VRayInit init;
+
+RendererOptions options;
+options.imageWidth = 640;
+options.imageHeight = 360;
+
+VRayRenderer renderer(options);
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+renderer.waitForImageReady(6000);
+
+LocalVRayImage image = renderer.getImage();
+image-&gt;saveToPngFile(&#34;car.png&#34;);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpvrayImages3">
+<pre class="brush:csharp">
+RendererOptions options = new RendererOptions();
+options.ImageWidth = 640;
+options.ImageHeight = 360;
+
+using (VRayRenderer renderer = new VRayRenderer(options))
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+    renderer.WaitForImageReady(6000);
+
+    using (VRayImage image = renderer.GetImage())
+    {
+        image.SaveToPNG(&#34;car.png&#34;);
+    }
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsvrayImages3">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer({
+    imageWidth : 640,
+    imageHeight : 360
+});
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;	
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function() {
+        var image = renderer.getImage();
+        image.save(&#39;car.png&#39;, function() {
+            image.close();
+            renderer.close();
+        });
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure VII.3</span>
+</div></div>
+				</div>
+							
+				<div id="RenderElements" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">VIII. Render Elements</h3>
+					<p>
+	V-Ray Render Elements (also known as Render Channels or Arbitrary Output Variables, AOVs) are images containing various types of render data encoded
+	as 3-element color, single floats or integers. Some of them are Z-depth, surface normal, UV coordinates,
+	velocity, lighting, reflections etc. Each V-Ray scene may contain an arbitrary
+	number of render elements (also called channels). Each channel is enabled by a unique plugin, except for
+	the RGB and Alpha channels, which are always enabled.
+</p>
+<p>
+	To access the render elements in the current scene, use the VRayRenderer instance where the scene is loaded.
+	Each render element's data can be taken either as a VRayImage, or as raw data (as byte, integer, or float buffers).
+	Optionally, provide a sub-region of interest to the APIs to get that part of the data.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonRenderElements1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPRenderElements1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpRenderElements1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsRenderElements1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonRenderElements1">
+<pre class="brush:python">
+with vray.VRayRenderer(renderMode=&#39;production&#39;) as renderer:
+    renderer.load(&#39;./car_elements.vrscene&#39;)
+    renderer.start()
+
+    # Here, we simply wait for the entire image to be completed before we access
+    # the render elements
+    renderer.waitForImageReady()
+
+    # Access render elements via the VRayRenderer instance
+    renderElements = renderer.renderElements.getAll()
+
+    # List all available render elements and process each one
+    for re in renderElements:
+        print(&#39;{0}, Format({1}), PixelFormat({2})&#39;.format(re.name, re.binaryFormat, re.defaultPixelFormat))
+
+        # Output render element&#39;s data as an image
+        # Optionally, specify an image sub-region, or leave blank to get the entire image
+        img = re.getImage()
+        img.save(re.name + &#39;.png&#39;, preserveAlpha=True)
+
+        # Similar to the image output, get the raw bytes
+        # Again, a sub-region can be specified, or the entire data can be obtained if left blank
+        rawData = re.getData()
+
+        # Do something with rawData...
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPRenderElements1">
+<pre class="brush:cpp">
+VRayInit init;
+
+RendererOptions options;
+options.imageWidth = 320;
+options.imageHeight = 200;
+options.renderMode = RendererOptions::RENDER_MODE_PRODUCTION;
+
+// Do some rendering
+VRayRenderer renderer(options);
+renderer.load(&#34;car_elements.vrscene&#34;);
+renderer.start();
+
+// Here, we simply wait for the entire image to be completed before we access the render elements
+renderer.waitForImageReady();
+
+// Access render elements via the VRayRenderer instance
+RenderElements renderElements = renderer.getRenderElements();
+std::vector&lt;RenderElement&gt; allElements = renderElements.getAllByType(RenderElement::NONE);
+
+// List all available render elements and process each one
+for (int i = 0; i &lt; allElements.size(); i++) {
+    RenderElement re = allElements[i];
+	// See enum BinaryFormat and enum PixelFormat for values
+    printf(&#34;Channel %s, Format(%d), PixelFormat(%d)\n&#34;, re.getName().c_str(), 
+        re.getBinaryFormat(), re.getDefaultPixelFormat());
+
+    // Output render element&#39;s data as an image
+    // Optionally, specify an image sub-region, or leave blank to get the entire image
+    LocalVRayImage img = re.getImage();
+    img-&gt;saveToPngFile(re.getName() + &#34;.png&#34;);
+
+    // Similar to the image output, get the raw bytes
+    // Again, a sub-region can be specified, or the entire data can be obtained if left blank
+    void* data = NULL;
+	int dataSize = re.getData(&amp;data);
+    if (dataSize &gt; 0) {
+        ofstream datFile (re.getName() + &#34;.dat&#34;, ios::out | ios::binary);
+        datFile.write(reinterpret_cast&lt;unsigned char*&gt;(data), dataSize);
+        datFile.close();
+        RenderElement::releaseData(data);
+    }
+}
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpRenderElements1">
+<pre class="brush:csharp">
+RendererOptions options = new RendererOptions();
+options.RenderMode = RenderMode.Production;
+
+using (VRayRenderer vr = new VRayRenderer(options))
+{
+    // Do some rendering
+    vr.Load(&#34;./car_elements.vrscene&#34;);
+    vr.Start();
+
+    // Here, we wait for the entire image to be completed before we access the render elements
+    vr.WaitForImageReady();
+
+    // Access render elements via the VRayRenderer instance
+    RenderElements re = vr.RenderElements;
+
+    // Render elements are available as plugins which are part of the scene and can be obtained in both production and RT mode
+    // Only &#34;RGB&#34; and &#34;Alpha&#34; are implicit
+    var allRenderElements = re.GetAll();
+
+    // List all available render elements and process each one
+    foreach (RenderElement r in allRenderElements)
+    {
+		// See enum RenderElementFormat and enum RenderElementPixelFormat for values
+        Console.WriteLine(&#34;{0}, Format({1}), PixelFormat({2})\n&#34;, r.Name, r.Format, r.PixelFormat);
+
+        // Output render element&#39;s data as an image
+        // Optionally, specify an image sub-region, or leave blank to get the entire image
+        VRayImage img = r.GetImage();
+        img.SaveToPNG(true, r.Name + &#34;.png&#34;);
+
+        // Similar to the image output, get the raw bytes
+        // Again, a sub-region can be specified, or the entire data can be obtained if left blank
+        byte[] rawData = r.GetData();
+
+        // Do something with rawData...
+    }
+}
+
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsRenderElements1">
+<pre class="brush:javascript">
+var r = vray.VRayRenderer({ renderMode : &#34;Production&#34;, imageWidth: 320, imageHeight: 200 });
+
+r.load(&#39;./car_elements.vrscene&#39;, function(err) {
+    if (err) throw err;
+    
+    // Do some rendering
+    r.start();
+    
+    // Here, we simply wait for the entire image to be completed before we access the render elements
+    r.waitForImageReady(function() {
+        // If we dont pass a specific type we get all render elements
+        var allElements = renderElements.getAll();
+        
+        // List all available render elements and process each one
+        for (var renderElement in allAlements) {
+            console.log(&#34;Channel &#34; + renderElement.name 
+                + &#34;, Format(&#34; + renderElement.binaryFormat 
+                + &#34;), PixelFormat(&#34; + renderElement.pixelFormat + &#34;)&#34;);            
+            
+            // Output render element&#39;s data as an image
+            // Optionally, specify an image sub-region, or leave blank to get the entire image
+            var reImage = renderElement.getImage();
+            reImage.saveSync(renderElement.name + &#34;.png&#34;);
+            
+            // Similar to the image output, get the raw bytes
+            // Again, a sub-region can be specified, or the entire data can be obtained if left blank
+            var rawData = renderElement.getData();
+            console.log(rawData);
+        }
+        
+        r.close();
+    });
+});
+
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure VIII.1</span>
+</div></div>
+				</div>
+							
+				<div id="plugins" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">IX. Plugins</h3>
+					<p>
+	Plugins are the objects that specify the lights, geometry, materials or settings that constitute the 3D scene. 
+	Each V-Ray scene consists of a set of plugins instances. The V-Ray Application SDK exposes methods in the 
+	main VRayRenderer class that can be used to create plugin instances or list and modify (or delete) the existing ones in the scene.
+</p>
+<p>
+	Plugin objects can be retrieved by instance name. Once the user has obtained a plugin instance its property (a.k.a. parameter) values 
+	can be viewed or set to affect the rendered image. The properties of the plugin are accessed by name. In RT mode the changes to plugin property values are usually 
+	applied immediately during rendering and changes become visible almost instantly, but for each change the image sampling is reset
+	and you get some noisy images initially. In Production mode changes to plugin property values take effect if they
+	are applied before the rendering process is started. The following example demonstrates how the transform for the
+	render view (camera) in a scene can be changed with the AppSDK.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonplugins1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPplugins1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpplugins1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsplugins1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonplugins1">
+<pre class="brush:python">
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+
+    # find the RenderView plugin in the scene
+    renderView = renderer.plugins.renderView
+
+    # change the transform value
+    newTransform = renderView.transform
+    newOffset = newTransform.offset
+    newOffset.x = -170
+    newOffset.y = 120
+    renderView.transform = newTransform
+
+    renderer.waitForImageReady(6000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPplugins1">
+<pre class="brush:cpp">
+#include &#34;vraysdk.hpp&#34;
+// The vrayplugins header provices specialized classes for concrete types
+// of plugins, deriving from the generic Plugin base class. It is optional and
+// the generic Plugin API can be used instead.
+#include &#34;vrayplugins.hpp&#34;
+VRayInit init;
+
+VRayRenderer renderer();
+renderer.load(&#34;./car.vrscene&#34;);
+
+// find the RenderView plugin in the scene
+RenderView renderView = renderer.getPlugin&lt;RenderView&gt;(&#34;renderView&#34;);
+
+// change the transform value
+Transform newTransform = renderView.getTransform(&#34;transform&#34;);
+Vector&amp; newOffset = newTransform.offset;
+newOffset.set(-170, 120, newOffset.z);
+renderView.set_transform(newTransform);
+
+renderer.startSync();
+
+renderer.waitForImageReady(6000);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpplugins1">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+
+    // find the RenderView plugin in the scene
+    RenderView renderView = renderer.GetPlugin&lt;RenderView&gt;(&#34;renderView&#34;);
+
+    // change the trasnform value
+    Transform newTransform = renderView.Transform;
+    newTransform.Offset.Set(new float[] { -170, 120, newTransform.Offset.Z });
+    renderView.Transform = newTransform;
+
+    renderer.WaitForImageReady(6000);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsplugins1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;
+    renderer.start();
+
+    // find the RenderView plugin in the scene
+    var renderView = renderer.plugins.renderView;
+
+    // change the transform value
+    var newTransform = renderView.transform;
+    var newOffset = newTransform.offset;
+    newOffset.x = -170;
+    newOffset.y = 120;
+    renderView.transform = newTransform;
+
+    renderer.waitForImageReady(6000, function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IX.1</span>
+</div></div>
+
+<p>
+	The call to a method that retrieves the value for a plugin property always returns a copy of the internal value 
+	stored in the local V-Ray engine. In order to change the plugin property value so that it affects the rendered
+	image the setter method from the plugin class should be called. Simply modifying the
+	value returned by a getter will not lead to changes in the scene as it is a copy, not a reference.
+</p>
+
+<h4>Adding and removing plugins</h4>
+<p>
+	Plugin instances can be created and removed 
+	dynamically with the AppSDK. The next example demonstrates how a new light can be 
+	added to the scene.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonplugins2" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPplugins2" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpplugins2" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsplugins2" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonplugins2">
+<pre class="brush:python">
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./softShadows.vrscene&#39;)
+
+    # create a new light plugin
+    lightOmni = renderer.classes.LightOmni(&#39;lightOmniBlue&#39;)
+    lightOmni.color = vray.Color(0, 0, 1)
+    lightOmni.intensity = 60000.0
+    lightOmni.decay = 2.0
+    lightOmni.shadowRadius = 40.0
+    lightOmni.transform = vray.Transform(vray.Matrix(vray.Vector(1.0, 0.0, 0.0), vray.Vector(0.0, 0.0, 1.0), vray.Vector(0.0, -1.0, 0.0)), vray.Vector(160, -30, 200))
+
+    renderer.start()
+
+    renderer.waitForImageReady(6000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPplugins2">
+<pre class="brush:cpp">
+VRayInit init;	
+
+VRayRenderer renderer;
+renderer.load(&#34;./softShadows.vrscene&#34;);
+
+// create a new light plugin
+LightOmni lightOmni = renderer.newPlugin&lt;LightOmni&gt;(&#34;lightOmniBlue&#34;);
+lightOmni.set_color(Color(0.f, 0.f, 1.f));
+lightOmni.set_intensity(60000.f);
+lightOmni.set_decay(2.0f);
+lightOmni.set_shadowRadius(40.0f);
+lightOmni.set_transform(Transform(Matrix(Vector(1.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0), Vector(0.0, -1.0, 0.0)), Vector(160.f, -30.f, 200.f)));
+
+renderer.startSync();
+
+renderer.waitForImageReady(6000);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpplugins2">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./softShadows.vrscene&#34;);
+
+    // create a new light plugin
+    LightOmni lightOmni = renderer.NewPlugin&lt;LightOmni&gt;(&#34;lightOmniBlue&#34;);
+    lightOmni.Color = new Color(0, 0, 1);
+    lightOmni.Intensity = 60000.0f;
+    lightOmni.Decay = 2.0f;
+    lightOmni.ShadowRadius = 40.0f;
+    lightOmni.Transform = new Transform(new Matrix(new Vector(1.0, 0.0, 0.0)
+                        , new Vector(0.0, 0.0, 1.0), new Vector(0.0, -1.0, 0.0))
+                        , new Vector(160, -30, 200));
+
+    renderer.Start();
+
+    renderer.WaitForImageReady(6000);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsplugins2">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./softShadows.vrscene&#39;, function(err) {
+    if (err) throw err;
+
+    // create a new light plugin
+    var lightOmni = renderer.classes.LightOmni(&#39;lightOmniBlue&#39;);
+    lightOmni.color = Color(0, 0, 1);
+    lightOmni.intensity = 60000.0;
+    lightOmni.decay = 2.0;
+    lightOmni.shadowRadius = 40.0;
+    lightOmni.transform = vray.Transform(vray.Matrix(vray.Vector(1.0, 0.0, 0.0)
+                        , vray.Vector(0.0, 0.0, 1.0), vray.Vector(0.0, -1.0, 0.0))
+                        , vray.Vector(160, -30, 200));
+
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IX.2</span>
+</div></div>
+
+<p>
+	In the following example we remove a sphere plugin by name:
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonplugins3" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPplugins3" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpplugins3" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsplugins3" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonplugins3">
+<pre class="brush:python">
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./softShadows.vrscene&#39;)
+
+    del renderer.plugins.GeoSphere01_node
+
+    renderer.start()
+
+    renderer.waitForImageReady(6000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPplugins3">
+<pre class="brush:cpp">
+VRayInit init;	
+
+VRayRenderer renderer;
+renderer.load(&#34;./softShadows.vrscene&#34;);
+
+Plugin sphere = renderer.getPlugin(&#34;GeoSphere01_node&#34;);
+renderer.removePlugin(sphere);
+
+renderer.startSync();
+
+renderer.waitForImageReady(6000);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpplugins3">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./softShadows.vrscene&#34;);
+
+    Plugin sphere = renderer.GetPlugin(&#34;GeoSphere01_node&#34;);
+    renderer.RemovePlugin(sphere);
+
+    renderer.Start();
+
+    renderer.WaitForImageReady(6000);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsplugins3">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./softShadows.vrscene&#39;, function(err) {
+    if (err) throw err;
+
+    delete r.plugins.GeoSphere01_node;
+
+    renderer.start();
+
+    renderer.waitForImageReady(6000, function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IX.3</span>
+</div></div>
+
+<h4>Automatic commit of property changes</h4>
+	All changes made to plugin properties should be done before the rendering starts when rendering in Production mode.
+	Any changes after that do not affect the current rendering, but they are not lost. In interactive (RT) mode the changes
+	made after the rendering starts are applied immediately to the scene by default. Alternatively, the user can decide to make a batch of changes to be applied together, usually for better performance. This is
+	done using the <strong>autoCommit</strong> property of the VRayRenderer class. In the following example we demonstrate
+	how a group of changes are batched and <strong>commit</strong> is called explicitly to apply them.
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonplugins4" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPplugins4" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpplugins4" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsplugins4" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonplugins4">
+<pre class="brush:python">
+with VRayRenderer() as r:
+    r.autoCommit = False
+    r.load(&#39;./softShadows.vrscene&#39;)
+
+    r.startSync()
+
+    # create a new light plugin
+    # This change won&#39;t be applied immediatelly
+    lightOmni = renderer.classes.LightOmni()
+
+    lightOmni.color = Color(0, 0, 1)
+    lightOmni.intensity = 60000.0
+    lightOmni.decay = 2.0
+    lightOmni.shadowRadius = 40.0
+    lightOmni.transform = Transform(Matrix(Vector(1.0, 0.0, 0.0), 
+        Vector(0.0, 0.0, 1.0), Vector(0.0, -1.0, 0.0)), Vector(160, -30, 200))
+    
+    r.waitForImageReady(2000)
+
+    # Make a group of changes 2 seconds after the render starts
+    r.plugins.renderView.fov = 1.5
+    del r.plugins.GeoSphere01_node
+
+    # Commit applies all 3 changes
+    r.commit()
+    
+    r.waitForImageReady(4000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPplugins4">
+<pre class="brush:cpp">
+VRayInit init;	
+
+VRayRenderer renderer();
+renderer.setAutoCommit(false);
+
+renderer.load(&#34;./softShadows.vrscene&#34;);
+ 
+// This change won&#39;t be applied immediatelly
+LightOmni lightOmni = renderer.newPlugin&lt;LightOmni&gt;(&#34;lightOmniBlue&#34;);
+lightOmni.set_color(Color(0.f, 0.f, 1.f));
+lightOmni.set_intensity(60000.0f);
+lightOmni.set_decay(2.0f);
+lightOmni.set_shadowRadius(40.0f);
+lightOmni.set_transform(Transform(Matrix(Vector(1.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0), Vector(0.0, -1.0, 0.0)), Vector(160, -30, 200)));
+
+renderer.startSync();
+
+renderer.waitForImageReady(2000);
+
+// Make a group of changes 2 seconds after the render starts
+Plugin sphere = renderer.getPlugin(&#34;GeoSphere01_node&#34;);
+renderer.removePlugin(sphere);
+
+RenderView renderView = renderer.getPlugin&lt;RenderView&gt;(&#34;renderView&#34;);
+renderView.set_fov(1.5f);
+
+// Commit applies all 3 changes
+renderer.commit();
+ 
+renderer.waitForImageReady(4000);
+
+
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpplugins4">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.SetAutoCommit(false);
+    
+    renderer.Load(&#34;./softShadows.vrscene&#34;);
+
+    // This change won&#39;t be applied immediatelly
+    LightOmni lightOmni = renderer.NewPlugin&lt;LightOmni&gt;(&#34;lightOmniBlue&#34;);
+    lightOmni.Color = new Color(0, 0, 1);
+    lightOmni.Intensity = 60000.0f;
+    lightOmni.Decay = 2.0f;
+    lightOmni.ShadowRadius = 40.0f;
+    lightOmni.Transform = Transform(Matrix(Vector(1.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0), Vector(0.0, -1.0, 0.0)), Vector(160, -30, 200)));
+
+    renderer.Start();
+
+    renderer.WaitForImageReady(2000);
+    
+    // Make a group of changes 2 seconds after the render starts
+    Plugin sphere = renderer.GetPlugin(&#34;GeoSphere01_node&#34;);
+    renderer.RemovePlugin(sphere);
+
+    RenderView renderView = renderer.GetPlugin&lt;RenderView&gt;(&#34;renderView&#34;);
+    renderView.Fov = 1.5f;
+
+    // Commit applies all 3 changes
+    renderer.Commit();
+    renderer.WaitForImageReady(4000);
+}
+
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsplugins4">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./softShadows.vrscene&#39;, function(err) {
+    if (err) throw err;
+
+    renderer.start();
+
+    // This change won&#39;t be applied immediatelly
+    var lightOmni = renderer.classes.LightOmni();
+    lightOmni.color = Color(0, 0, 1);
+    lightOmni.intensity = 60000.0;
+    lightOmni.decay = 2.0;
+    lightOmni.shadowRadius = 40.0;
+    lightOmni.transform = Transform(Matrix(Vector(1.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0), Vector(0.0, -1.0, 0.0)), Vector(160, -30, 200));
+
+    // Make a group of changes 2 seconds after the render starts
+    setTimeout(function() {
+        renderer.plugins.renderView.fov = 1.5;
+
+        delete renderer.plugins.GeoSphere01_node;
+
+        // Commit applies all 3 changes
+        renderer.commit();
+    }, 2000);
+
+    renderer.waitForImageReady(6000, function() {
+        renderer.close();
+    });
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure IX.4</span>
+</div></div>
+
+				</div>
+							
+				<div id="types" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">X. Property Types</h3>
+					<p>
+	The following are the types recognized for property types: 
+	<ul>
+		<li><em>Basic types:</em> int, bool, float, Color (3 float RGB), AColor (4 float ARGB), Vector (3 float), string (UTF-8), Matrix (3 Vectors), Transform (a Matrix and a Vector for translation)</li>
+		<li><em>Objects:</em> references to other plugin instances</li>
+		<li><em>Typed lists:</em> The typed lists in AppSDK are IntList, FloatList, ColorList and VectorList.</li>
+		<li><em>Generic heterogenous lists:</em> The AppSDK uses a generic type class called Value for items in a generic list. Note that generic lists can be nested.</li>
+		<li><em>Output parameters:</em> These are additional values generated by a given plugin which may be used as input by others. </li>
+	</ul>
+	Detailed documentation about working with each type can be found in the API docs as they have some language nuances. All types are in the <em>VRay</em> namespace.
+</p>
+
+				</div>
+							
+				<div id="animations" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">XI. Animations</h3>
+					<p>
+	V-Ray AppSDK supports rendering of animated scenes. Animated scenes contain animated plugin properties.
+	A plugin property is considered animated if it has a sequence of values - each for a
+	specific time or frame number. This defines key frames and in the process of sampling, interpolation
+	is done between the values.
+</p>
+
+<p>
+	Two additional events are emitted while rendering a sequence of frames - <strong>sequenceStart</strong>
+	and <strong>sequenceDone</strong>. OnImageReady is emitted on each finished frame and one can obtain
+	the current frame number from the <strong>sequenceFrame</strong> property of the renderer.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonanimations1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPanimations1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpanimations1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsanimations1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonanimations1">
+<pre class="brush:python">
+import os
+
+def onImageReady(r):
+    print(&#39;Image Ready, frame &#39; + str(r.sequenceFrame) + &#39;  (sequenceDone = &#39; + str(r.sequenceDone) + &#39;)&#39;)
+    r.continueSequence()
+
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./anim/anim_cube.vrscene&#39;)
+    renderer.setOnImageReady(onImageReady)
+    
+    # When a single number is passed, it&#39;s interpreted as &#34;start&#34;, with &#34;end&#34; being the last frame and step=1
+    sequence = [9, {&#39;start&#39;: 4, &#39;end&#39;: 5}, {&#39;start&#39;: 1, &#39;end&#39;: 5, &#39;step&#39;: 2}]
+    renderer.renderSequence(sequence)
+    renderer.waitForSequenceDone()
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPanimations1">
+<pre class="brush:cpp">
+void onSequenceStarted(VRayRenderer&amp; renderer, void*) {
+    printf(&#34;Sequence started.&#34;);
+}
+
+void onSequenceDone(VRayRenderer&amp; renderer, void*) {
+    printf(&#34;Sequence done.&#34;);
+}
+
+void onImageReady(VRayRenderer&amp; renderer, void*) {
+    printf(&#34;Frame %d is ready\n&#34;, renderer.getSequenceFrame());
+    renderer.continueSequence();
+}
+
+int main() {
+	VRayInit init;
+
+	VRayRenderer renderer;
+	renderer.setOnSequenceStart(onSequenceStarted);
+	renderer.setOnSequenceDone(onSequenceDone);
+	renderer.setOnImageReady(onImageReady);
+
+	renderer.load(&#34;./anim/anim_cube.vrscene&#34;);
+	renderer.renderSequence();
+	renderer.waitForSequenceDone();
+	return 0;
+}
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpanimations1">
+<pre class="brush:csharp">
+static string CubeSceneFilePath = @&#34;\scenes\anim\anim_cube.vrscene&#34;;
+static VRayRenderer renderer;
+
+private static void OnImageReady(object sender, EventArgs e)
+{
+    Console.WriteLine(&#34;Image ready, frame {0}&#34;, renderer.SequenceFrame);
+    renderer.ContinueSequence();            
+}
+
+private static void OnSequenceStarted(object sender, EventArgs e)
+{
+    Console.WriteLine(&#34;Sequence started.&#34;);
+}
+
+private static void OnSequenceDone(object sender, EventArgs e)
+{
+    Console.WriteLine(&#34;Sequence done.&#34;);
+}
+
+public static void Main(string[] args)
+{
+    using (renderer = new VRayRenderer())
+    {
+        renderer.Load(CubeSceneFilePath);
+        renderer.ImageReady += new EventHandler(OnImageReady);
+        renderer.SequenceStarted += new EventHandler(OnSequenceStarted);
+        renderer.SequenceDone += new EventHandler(OnSequenceDone);
+
+        // SubSequenceDesc(startFrame, endFrame, step) - the latter two parameters are optional.
+        // By default endFrame is the last frame and step is 1, so it could be just a single frame and the implicit step is 1.
+        // The range can be inverted and the separate ranges need not be sorted.
+        // All these options are seen in the example array.
+        SubSequenceDesc[] seq = { new SubSequenceDesc(3, 5), new SubSequenceDesc(1),
+            new SubSequenceDesc(2), new SubSequenceDesc(10, 6, 2) };
+        renderer.RenderSequence(seq);
+        renderer.WaitForSequenceDone();
+    }
+}
+
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsanimations1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.on(&#39;imageReady&#39;, function () {
+    console.log(&#39;Image Ready, frame &#39; + renderer.sequenceFrame + 
+    		&#39;  (sequenceDone = &#39; + renderer.sequenceDone + &#39;)&#39;);
+    renderer.continueSequence();
+});
+
+renderer.on(&#39;sequenceStart&#39;, function () {
+    console.log(&#39;Sequence started.&#39;);
+});
+
+renderer.on(&#39;sequenceDone&#39;, function () {
+    console.log(&#39;Sequence done. Closing renderer...&#39;);
+    renderer.close();
+});
+
+renderer.load(&#39;./anim/anim_cube.vrscene&#39;, function (err) {
+    if (err) {
+        renderer.close();
+        throw err;
+    }
+
+    // renderSequence() arguments can be in an array but it&#39;s not obligatory
+    // simple example: renderSequence({ start: 3, end: 8})
+    // When a single number is passed, it&#39;s interpreted as &#34;start&#34;, with &#34;end&#34; being the last frame and step=1
+    renderer.renderSequence([{ start: 4, end: 5}, 1, 3, 2, 
+                             { start: 10, end: 1, step: -2}, 5, { start: 2, end: 6}]);
+	renderer.waitForSequenceDone()
+});
+
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure XI.1</span>
+</div></div>
+
+				</div>
+							
+				<div id="vrayServer" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">XII. V-Ray Server</h3>
+					<p>
+	A V-Ray Server is used as a remote render host during the rendering of a scene. The server is a process that listens 
+	for render requests on a specific network port and clients such as instances of the VRayRenderer class can connect to the 
+	server to delegate part of the image rendering. V-Ray Standalone render servers can also be used. The server cannot be used on its own to start a rendering process 
+	but plays an essential role when completing distributed tasks initiated by clients. In order to take advantage 
+	of the distributed rendering capabilities of V-Ray, such servers need to be run and be available for requests. 
+</p>
+<p>
+	The V-Ray Application SDK allows for easily creating V-Ray server processes that can be 
+	used in distributed rendering. The API includes the VRayServer class that exposes methods 
+	for starting and stopping server processes. In addition the VRayServer class enables users to subscribe to V-Ray 
+	server specific events so that custom logic can be executed upon their occurrence. 
+</p>
+<p>
+	Server events occur when:
+	<ul>
+		<li>The server process starts and is ready to accept render requests</li>
+		<li>A render client connects to the server to request a distributed rendering task</li>
+		<li>A render client disconnects from the server</li>
+		<li>A server text message is produced due to a change in the server status or to track the progress of the current job</li>
+	</ul>
+</p>
+<p>
+	The next code snippet demonstrates how VRayServer can be instantiated and used to start a server process.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythonvrayServer1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPvrayServer1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpvrayServer1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsvrayServer1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythonvrayServer1">
+<pre class="brush:python">
+def onStart(server):
+    print(&#39;Server is ready.&#39;)
+
+def onDumpMessage(server, message, level):
+    print(&#39;[{0}] {1}&#39;.format(level, message))
+
+def onDisconnect(server, host):
+    print(&#39;Host {0} disconnected from server.&#39;.format(host))
+
+def onConnect(server, host):
+    print(&#39;Host {0} connected to server.&#39;.format(host))
+
+server = vray.VRayServer(portNumber=20207)
+server.setOnStart(onStart)
+server.setOnDumpMessage(onDumpMessage)
+server.setOnDisconnect(onDisconnect)
+server.setOnConnect(onConnect)
+
+server.run()
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPvrayServer1">
+<pre class="brush:cpp">
+#include &#34;vraysrv.hpp&#34;
+using namespace VRay;
+
+void onLogMessage(VRayServer&amp; server, const char* message, int level, void* userData)
+{
+    printf(&#34;[%d] %s\n&#34;, level, message);
+}
+
+VRayServerInit init;
+
+ServerOptions options;
+options.portNumber = 20207;
+
+VRayServer server(options);
+server.setOnDumpMessage(onLogMessage);
+
+server.run();
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpvrayServer1">
+<pre class="brush:csharp">
+ServerOptions options = new ServerOptions();
+options.PortNumber = 20207;
+
+using (VRayServer server = new VRayServer(options))
+{
+    server.Started += new EventHandler((source, e) =&gt;
+    { 
+        Console.WriteLine(&#34;Server is ready&#34;); 
+    });
+    server.HostConnected += new EventHandler&lt;HostEventArgs&gt;((source, e) =&gt;
+    { 
+        Console.WriteLine(&#34;Host {0} connected to server.&#34;, e.Host);
+    });
+    server.HostDisconnected += new EventHandler&lt;HostEventArgs&gt;((source, e) =&gt;
+    {
+        Console.WriteLine(&#34;Host {0} disconnected from server.&#34;, e.Host);
+    });
+    server.MessageLogged += new EventHandler&lt;MessageEventArgs&gt;((source, e) =&gt;
+    {
+        Console.WriteLine(&#34;[{0}] {1}&#34;, e.LogLevel.Type, e.Message);
+    });
+
+    server.Run();
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsvrayServer1">
+<pre class="brush:javascript">
+var server = vray.VRayServer({
+    portNumber : 20207
+});
+
+server.on(&#39;start&#39;, function() {
+    console.log(&#39;Server is ready&#39;);
+});
+
+server.on(&#39;connect&#39;, function(host) {
+    console.log(&#39;Host &#39; + host + &#39; connected to server.&#39;);
+})
+
+server.on(&#39;disconnect&#39;, function(host) {
+    console.log(&#39;Host &#39; + host + &#39; disconnected from server.&#39;);
+})
+
+server.on(&#39;dumpMessage&#39;, function(message, level) {
+    console.log(&#39;[%d] %s&#39;, level, message);
+})
+
+server.start();
+
+process.on(&#39;exit&#39;, function() {
+    server.close();
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure XII.1</span>
+</div></div>
+				</div>
+							
+				<div id="dr" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">XIII. Distributed Rendering</h3>
+					<p>
+	The V-Ray Application SDK allows third party integrators to make full use of the V-Ray distributed rendering engine.
+	Distributed rendering allows you to render parts of the image in parallel on multiple render hosts. 
+	The client process which initiates the rendering synchronizes the results produced by the render servers (also known 
+	as render slaves). All render modes support distributed rendering.
+</p>
+<p>
+	Render hosts can be dynamically added and removed at any point in time during the rendering process. The render hosts 
+	should have a V-Ray server running on them when the render client tries to add them to its list of active hosts 
+	because the client verifies whether a connection can be established for a distributed task at that time.
+</p>
+<p>
+	Each render host is identified by an address:port pair specifying the IP or DNS address of the machine with the V-Ray server and 
+	the port on which this server is listening for render requests. The VRayRenderer class exposes methods for dynamic 
+	addition and removal of hosts. Regardless of the progress made by the main render process in the client, remote 
+	machines can successfully begin to participate in the rendering as long as the they have running V-Ray servers.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythondr1" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPdr1" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpdr1" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsdr1" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythondr1">
+<pre class="brush:python">
+import time
+
+with vray.VRayRenderer() as renderer:
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+
+    # attach several hosts after a few seconds
+    # If port is ommitted, it defaults to 20207
+    time.sleep(6)
+    renderer.addHosts(&#39;10.0.0.132:20207;10.0.0.132:20208&#39;)
+
+    # display render host info
+    print(&#39;Active hosts: &#39;, renderer.getActiveHosts())
+    print(&#39;All hosts: &#39;, renderer.getAllHosts())
+
+    # wait a few seconds for the final image
+    renderer.waitForImageReady(6000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPdr1">
+<pre class="brush:cpp">
+VRayInit init;
+
+VRayRenderer renderer;
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+
+// Attach several hosts after a few seconds
+// If port is ommitted, it defaults to 20207
+renderer.waitForImageReady(6000);
+renderer.addHosts(&#34;10.0.0.132:20207;10.0.0.132:20208&#34;);
+
+// display render host info
+printf(&#34;Active hosts: %s\n&#34;, renderer.getActiveHosts().c_str());
+printf(&#34;All hosts: %s\n&#34;, renderer.getAllHosts().c_str());	
+
+// wait a few seconds for the final image
+renderer.waitForImageReady(6000);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpdr1">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+
+    // attach several hosts after a few seconds
+    // If port is ommitted, it defaults to 20207
+    System.Threading.Thread.Sleep(6000);
+    renderer.AddHosts(&#34;10.0.0.132:20207;10.0.0.132:20208&#34;);
+
+    // display render host info
+    Console.WriteLine(&#34;Active hosts: {0}&#34;, renderer.ActiveHosts);
+    Console.WriteLine(&#34;All hosts: {0}&#34;, renderer.AllHosts);
+
+    // wait a few seconds for the final image
+    renderer.WaitForImageReady(6000);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsdr1">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.load(&#39;./car.vrscene&#39;, function(err) {
+    if (err) throw err;
+    renderer.start();
+
+    // attach several hosts after a few seconds
+    // If port is ommitted, it defaults to 20207
+    setTimeout(function() {
+        renderer.addHosts(&#34;10.0.0.132:20207;10.0.0.132:20208&#34;, function() {
+            // display render host info
+            console.log(&#34;Active hosts: &#34; + renderer.getActiveHostsSync());
+            console.log(&#34;All hosts: &#34; + renderer.getAllHostsSync());
+
+            // wait a few seconds for the final image
+            renderer.waitForImageReady(6000, function() {
+                renderer.close();
+            });
+        });
+    }, 6000);
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure XIII.1</span>
+</div></div>
+
+<p>
+	Removal of render hosts is just as easy as adding them. Even if all remote render hosts disconnect or are deleted from 
+	the rendering host list the rendering process will continue on the client machine which has initiated it.
+</p>
+<div class="code"><div class="tabbable">
+	<ul class="nav nav-tabs">
+		<li class="python active"><a href="#tabPythondr2" data-toggle="tab">Python</a></li>
+		<li class="cpp"><a href="#tabCPPdr2" data-toggle="tab">C++</a></li>
+		<li class="csharp"><a href="#tabCSharpdr2" data-toggle="tab">C#.NET</a></li>
+		<li class="nodejs"><a href="#tabNodejsdr2" data-toggle="tab">Node.js</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active python" id="tabPythondr2">
+<pre class="brush:python">
+import time
+
+with vray.VRayRenderer() as renderer:
+    renderer.addHosts(&#39;10.0.0.132:20207;10.0.0.132:20208&#39;)
+
+    renderer.load(&#39;./car.vrscene&#39;)
+    renderer.start()
+
+    # detach a host after a few seconds
+    time.sleep(6)
+    renderer.removeHosts(&#39;10.0.0.132:20208&#39;)
+
+    # display render host info
+    print(&#39;Active hosts: &#39;, renderer.getActiveHosts())
+    print(&#39;Inactive hosts: &#39;, renderer.getInactiveHosts())
+    print(&#39;All hosts: &#39;, renderer.getAllHosts())
+
+    # wait a few seconds for the final image
+    renderer.waitForImageReady(6000)
+
+</pre>
+		</div>
+		<div class="tab-pane cpp" id="tabCPPdr2">
+<pre class="brush:cpp">
+VRayInit init;
+
+VRayRenderer renderer;
+renderer.addHosts(&#34;10.0.0.132:20207;10.0.0.132:20208&#34;);
+
+renderer.load(&#34;./car.vrscene&#34;);
+renderer.startSync();
+
+// detach a host after a few seconds
+renderer.waitForImageReady(6000);
+renderer.removeHosts(&#34;10.0.0.132:20208&#34;);
+	
+// display render host info
+printf(&#34;Active hosts: %s\n&#34;, renderer.getActiveHosts().c_str());
+printf(&#34;Inactive hosts: %s\n&#34;, renderer.getInactiveHosts().c_str());
+printf(&#34;All hosts: %s\n&#34;, renderer.getAllHosts().c_str());	
+
+// wait a few seconds for the final image
+renderer.waitForImageReady(6000);
+</pre>
+		</div>
+		<div class="tab-pane csharp" id="tabCSharpdr2">
+<pre class="brush:csharp">
+using (VRayRenderer renderer = new VRayRenderer())
+{
+    renderer.AddHosts(&#34;10.0.0.132:20207;10.0.0.132:20208&#34;);
+    renderer.Load(&#34;./car.vrscene&#34;);
+    renderer.Start();
+
+    // detach a host after a few seconds
+    System.Threading.Thread.Sleep(6000);
+    renderer.RemoveHosts(&#34;10.0.0.132:20208&#34;);
+
+    // display render host info
+    Console.WriteLine(&#34;Active hosts: {0}&#34;, renderer.ActiveHosts);
+    Console.WriteLine(&#34;Inactive hosts: {0}&#34;, renderer.InactiveHosts);
+    Console.WriteLine(&#34;All hosts: {0}&#34;, renderer.AllHosts);
+
+    // wait a few seconds for the final image
+    renderer.WaitForImageReady(6000);
+}
+</pre>
+		</div>
+		<div class="tab-pane nodejs" id="tabNodejsdr2">
+<pre class="brush:javascript">
+var renderer = vray.VRayRenderer();
+
+renderer.addHosts(&#34;10.0.0.132:20207;10.0.0.132:20208&#34;, function() {
+	renderer.load(&#39;./car.vrscene&#39;, function(err) {
+		if (err) throw err;	
+		renderer.start();
+
+		// detach a host after a few seconds
+		setTimeout(function() {
+			renderer.removeHosts(&#34;10.0.0.132:20208&#34;, function() {
+				// display render host info
+				console.log(&#34;Active hosts: &#34; + renderer.getActiveHostsSync());
+				console.log(&#34;Inactive hosts: &#34; + renderer.getInactiveHostsSync());
+				console.log(&#34;All hosts: &#34; + renderer.getAllHostsSync());
+
+				// wait a few seconds for the final image
+				renderer.waitForImageReady(6000, function () {
+					renderer.close();
+				});
+			});
+		}, 6000);
+	});
+});
+</pre>
+		</div>
+	</div>
+	
+	<span class="figure-label">Figure XIII.2</span>
+</div></div>
+				</div>
+							
+				<div id="setup" class="chapter">
+					<div class="space"></div>					
+					<h3 class="center-narrow">XIV. Setup</h3>
+					<p>
+	Each time AppSDK is used, the script <em>setenv{python version}.sh</em> should be run to setup some environment variables. Run either if you're not interested in Python. The following variables are set:
+	<ul>
+		<li>PATH (Windows) - Appended with the path to V-Ray's and the SDK's binaries</li>
+		<li>LD_LIBRARY_PATH (Linux) - Appended with the path to V-Ray's and the SDK's binaries</li>
+		<li>DYLD_LIBRARY_PATH (MacOS) - Appended with the path to V-Ray's and the SDK's binaries</li>
+		<li>VRAY_PATH - Path to where V-Ray and its plugins reside</li>
+		<li>PYTHONPATH - Used only by the Python binding</li>
+		<li>VRAY_SDK - Path to the main SDK folder used only by code examples</li>
+	</ul>
+	Users can pass the path contained in VRAY_PATH to the VRayRenderer constructor options (pluginLibraryPath) instead.
+</p>
+
+				</div>
+			
+			</div>
+		</div>
+		
+		<!-- Company Footer -->		
+		<footer>
+			<p>&copy; Chaos Software 2016</p>
+		</footer>
+	</div>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>

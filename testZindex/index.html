@@ -2,69 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
- 	<script src="https://code.jquery.com/jquery-2.0.2.min.js" integrity="sha256-TZWGoHXwgqBP1AF4SZxHIBKzUdtMGk0hCQegiR99itk=" crossorigin="anonymous"></script>
-    <title>Test Embedded</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://code.jquery.com/jquery-2.0.2.min.js" integrity="sha256-TZWGoHXwgqBP1AF4SZxHIBKzUdtMGk0hCQegiR99itk="
+    crossorigin="anonymous"></script>
+  <title>Test Embedded</title>
 </head>
 
 <body>
-<article>
-    <p>This demo shows how you can import and assign an image, or load a previously imported image.</p>
-<p><div id="content" style="position:relative;height: 5000px;overflow: scroll;">
-  <button style="width: 100px; height: 100px;position:relative;z-index: 100;top:900px;">Use Previous Image</button>
-  <div id="player" style="height: 400px;width: 400px; top:0; position: absolute;"></div>
-  <input id="upload" type="file">
-  <button id="previous">Use Previous Image</button>
-  <p><u>Clara.io demo resources:</u></p>
-  <a id="baseScene" target="_blank">Visit Base Scene</a>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-  <p style="margin-top: 100px"><u>Clara.io demo resources:</u></p>
-</div></p>
-<!-- <script type="text/javascript" src="claraplayer-2.2.59.js"></script> -->
-<script type="text/javascript" src="https://clara.io/js/claraplayer-2.2.59.js"></script>
-<script src="content.js"></script>
-<hr>
-<pre class="prettyprint source lang-javascript"><code>var baseSceneId = '254d90dd-eb0c-4618-ba85-bf22668b1a5d';
-
-var api = claraplayer('player');
-api.sceneIO.fetchAndUse('254d90dd-eb0c-4618-ba85-bf22668b1a5d').then(function() {
-  document.getElementById('upload').onchange = onInputFileChanged;
-  document.getElementById('previous').onclick = importPreviousImage;
-  document.getElementById('baseScene').setAttribute('href','https://clara.io/view/'+baseSceneId);
-});
-
-function onInputFileChanged(ev) {
-  var file = ev.target.files[0];
-  api.assets.importImage(file, 1024).then(handleImport).catch(handleError);
-}
-
-function handleImport(attrs) {
-  api.scene.set({name: 'Physical', plug: 'Material', property: 'baseMap'}, attrs.imageNodeId);
-};
-
-function handleError(err) {
-  console.log('Import image error: ', err);
-}
-
-function importPreviousImage(ev) {
-  api.assets.importImage('b358f029-316a-4b95-8043-b3431f5ae3cd').then(handleImport).catch(handleError);
-}</code></pre>
-</article>
+  <div class="sketchfab-embed-wrapper">
+    <iframe width="640" height="480" src="https://sketchfab.com/models/2d30d474405b407fb5645e391606063c/embed?camera=0" frameborder="0"
+      allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel=""></iframe>
+  </div>
+  <div class="sketchfab-embed-wrapper">
+    <iframe src="https://clara.io/player/v2/a5351f50-b2ff-40e8-9f9d-78a021bc59ec" width="640" height="480" allowfullscreen></iframe>
+  </div>
 </body>
 
 </html>
