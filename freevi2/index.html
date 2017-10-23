@@ -21,10 +21,12 @@
   <div style="width:100%;height:100%;text-align:center ">
     <div id="clara-embed" style="height:1000px"> </div>
   </div>
-  <script type="text/javascript" src="./claraplayer.js"></script>
+  <script type="text/javascript" src="./claraplayer-2.2.27.js"></script>
   <script>
     const api = window.claraplayer('clara-embed');
-    api.sceneIO.fetchAndUse('6df201f5-8c0c-425f-914f-9e955b639aac')
+    api.sceneIO.fetchAndUse('6df201f5-8c0c-425f-914f-9e955b639aac').then(() => {
+
+    })
   </script>
 </body>
 
