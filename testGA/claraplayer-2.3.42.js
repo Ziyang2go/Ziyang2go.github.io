@@ -33692,7 +33692,7 @@ function addGoogleAnalytics(id, name) {
     if (!id || !name) return _promise2.default.reject(new Error('Google Analytics should have id and name'));
     (0, _player.initGA)(id, name);
     var trackFn = function trackFn(attribute, value) {
-      console.logt('changing.........');
+      console.log('changing.........');
       console.log(attribute.name);
       console.log(value);
       return store.trackEvent(name, 'Configuration Change', attribute.name, value);
