@@ -1,51 +1,51 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
- 	<script src="https://code.jquery.com/jquery-2.0.2.min.js" integrity="sha256-TZWGoHXwgqBP1AF4SZxHIBKzUdtMGk0hCQegiR99itk=" crossorigin="anonymous"></script>
-    <title>Test Embedded</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Cups GIF Render</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+    crossorigin="anonymous">
+  <!-- Custom styles for this template -->
 </head>
 
 <body>
-<article>
-    <p>This demo shows how you can import and assign an image, or load a previously imported image.</p>
-<p><div id="content">
-  <div id="player" style="height: 1000px;width: 1000px;"></div>
-  <input id="upload" type="file">
-  <button id="previous">Use Previous Image</button>
-  <p><u>Clara.io demo resources:</u></p>
-  <a id="baseScene" target="_blank">Visit Base Scene</a>
-</div></p>
-<script type="text/javascript" src="https://v3.threehub.net:8888/js/claraplayer.js"></script>
-<script src="content.js"></script>
-<hr>
-<pre class="prettyprint source lang-javascript"><code>var baseSceneId = '254d90dd-eb0c-4618-ba85-bf22668b1a5d';
+  <div class="starter-template">
+    <div class="row" style="padding: 1em">
+      <div class="col-sm">
+        <div style="position: relative; width: 100%; padding-bottom: 75%;">
+          <div id="claraplayer" style="position: absolute; width: 100%; height: 100%"></div>
+        </div>
+      </div>
+      <div class="col-sm">
+        <div id="configurator"></div>
+      </div>
+    </div>
+  </div>
 
-var api = claraplayer('player');
-api.sceneIO.fetchAndUse('254d90dd-eb0c-4618-ba85-bf22668b1a5d').then(function() {
-  document.getElementById('upload').onchange = onInputFileChanged;
-  document.getElementById('previous').onclick = importPreviousImage;
-  document.getElementById('baseScene').setAttribute('href','https://clara.io/view/'+baseSceneId);
-});
+  </main>
+  <!-- /.container -->
 
-function onInputFileChanged(ev) {
-  var file = ev.target.files[0];
-  api.assets.importImage(file, 1024).then(handleImport).catch(handleError);
-}
 
-function handleImport(attrs) {
-  api.scene.set({name: 'Physical', plug: 'Material', property: 'baseMap'}, attrs.imageNodeId);
-};
-
-function handleError(err) {
-  console.log('Import image error: ', err);
-}
-
-function importPreviousImage(ev) {
-  api.assets.importImage('b358f029-316a-4b95-8043-b3431f5ae3cd').then(handleImport).catch(handleError);
-}</code></pre>
-</article>
+  <script src="./claraplayer-2.3.42.js"></script>
+  <script src="./configuratorui.8694162f208131bbd309.js"></script>
+  <script>
+    var api = claraplayer('claraplayer');
+    var sceneId = '4b171a4f-1981-4b38-98bb-9f6bf13eeebd';
+    api.sceneIO.fetchAndUse(sceneId).then(function () {
+      api.configuration.initConfigurator({
+        el: document.getElementById('configurator'),
+        form: 'Main',
+      })
+      api.configuration.addGoogleAnalytics('UA-98307935-1', 'paletteEnvy')
+    });
+  </script>
 </body>
 
 </html>
