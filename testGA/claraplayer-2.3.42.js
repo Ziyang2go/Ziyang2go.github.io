@@ -33695,7 +33695,8 @@ function addGoogleAnalytics(id, name) {
       console.log('changing.........');
       console.log(attribute.name);
       console.log(value);
-      return store.trackEvent(name, 'Configuration Change', attribute.name, value);
+      console.log(store.trackEvent);
+      store.trackEvent(name, 'Configuration Change', attribute.name, value);
     };
     store.dispatch(onChange(trackFn));
   };
